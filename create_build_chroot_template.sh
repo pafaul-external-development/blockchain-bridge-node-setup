@@ -89,13 +89,24 @@ case ${ADDITIONAL_PACKS} in
         ;;
 esac
 
-DEBOOTSTRAP_PARAMS="--include=${PACKAGES_TO_INSTALL}"
+[ -d ${TARGET_DIRECTORY} ] && rm -rf ${TARGET_DIRECTORY}
+
+# DEBOOTSTRAP_PARAMS="--include=${PACKAGES_TO_INSTALL}"
 DEBOOTSTRAP_PARAMS="${DEBOOTSTRAP_PARAMS} --components=main,contrib,non-free"
-DEBOOTSTRAP_PARAMS="${DEBOOTSTRAP_PARAMS} buster ${TARGET_DIRECTORY}"
-echo "${DEBOOTSTRAP_PARAMS}"
-exit 0
+DEBOOTSTRAP_PARAMS="${DEBOOTSTRAP_PARAMS} bionic ${TARGET_DIRECTORY}"
 
 debootstrap ${DEBOOTSTRAP_PARAMS}
+result=$?
+if [ $result -ne 0 ]
+then 
+    echo "Problems creating chroot directory"
+    exit 1
+fi
+
+systemd-nspawn -D ${TARGET_DIRECTORY} \
+    --bind=${DIRROOT}/scripts:/opt/scripts \
+    /bin/bash /opt/scripts/chroot_post_install.sh
+
 result=$?
 if [ $result -eq 0 ]
 then
