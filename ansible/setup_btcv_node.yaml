@@ -1,0 +1,50 @@
+- name: Downloading sources for BTCV and building it
+  hosts: btcv
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Create directory for BTCV
+    file:
+      path: "{{ btcv_dir }}"
+      state: directory
+
+  - name: Preconfiguring node
+    script: "{{ script_dir }}/configure_node.sh"
+
+  - name: Installig required packages
+    apt:
+      pkg:
+      - build-essential
+      - libtool
+      - autotools-dev
+      - automake
+      - pkg-config
+      - bsdmainutils
+      - python3
+      - libssl-dev
+      - libevent-dev
+      - libboost-system-dev
+      - libboost-filesystem-dev
+      - libboost-chrono-dev
+      - libboost-test-dev
+      - libboost-thread-dev
+      - libminiupnpc-dev
+      - libzmq3-dev
+      - libqt5gui5
+      - libqt5core5a
+      - libqt5dbus5
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libprotobuf-dev
+      - protobuf-compiler
+      - libqrencode-dev
+      - wget
+
+  - name: Downloading latest known sources to build BTCV
+    script: "{{ script_dir }}/download_script.sh {{ btcv_link }} {{ btcv_dir }} btcv"
+  
+  - name: Building downloaded binaries
+    script: "{{ script_dir }}/build_btcv.sh {{ btcv_dir }}"
+    
+  - name: Installing downloaded binaries
+    script: "{{ script_dir }}/install_btcv.sh {{ btcv_dir }}"

@@ -26,7 +26,7 @@ display_help() {
     echo "Usage: $0 [option...] " >&2
     echo 
     echo "    -d, --target-dir                directory where template build system will be created"
-    echo "    -a, --additional-packages       specifies what additional packs of packages will be installed"
+    # echo "    -a, --additional-packages       specifies what additional packs of packages will be installed"
 }
 
 parse_input_parameters() {
@@ -47,14 +47,14 @@ parse_input_parameters() {
                 TARGET_DIRECTORY=$2
                 shift 2
                 ;;
-            -a | --additional-packages)
-                ADDITIONAL_PACKS=$2
-                shift 2
-                ;;
-            -r | --release)
-                RELEASE=$2
-                shift 2
-                ;;
+            # -a | --additional-packages)
+            #     ADDITIONAL_PACKS=$2
+            #     shift 2
+            #     ;;
+            # -r | --release)
+            #     RELEASE=$2
+            #     shift 2
+            #     ;;
             *)
                 echo "Unknown parameter"
                 display_help
@@ -65,29 +65,29 @@ parse_input_parameters() {
 
 parse_input_parameters $@
 
-DEPS_DIR="${DIRROOT}/files/deb/"
-PACKAGES_TO_INSTALL=$(cat ${DEPS_DIR}/deps)
-[ -z $ADDITIONAL_PACKS ] && ADDITIONAL_PACKS="min"
-case ${ADDITIONAL_PACKS} in
-    qt)
-        PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/qt_deps)"
-        ;;
-    zmq)
-        PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/zmq_deps)"
-        ;;
-    upnp)
-        PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/upnp_deps)"
-        ;;
-    full)
-        PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/qt_deps),$(cat ${DEPS_DIR}/zmq_deps),$(cat ${DEPS_DIR}/upnp_deps)"
-        ;;
-    min) ;;
-    *)
-        echo "Unknown additional packages packs"
-        display_help
-        exit 1
-        ;;
-esac
+# DEPS_DIR="${DIRROOT}/files/deb/"
+# PACKAGES_TO_INSTALL=$(cat ${DEPS_DIR}/deps)
+# [ -z $ADDITIONAL_PACKS ] && ADDITIONAL_PACKS="min"
+# case ${ADDITIONAL_PACKS} in
+#     qt)
+#         PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/qt_deps)"
+#         ;;
+#     zmq)
+#         PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/zmq_deps)"
+#         ;;
+#     upnp)
+#         PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/upnp_deps)"
+#         ;;
+#     full)
+#         PACKAGES_TO_INSTALL="${PACKAGES_TO_INSTALL},$(cat ${DEPS_DIR}/qt_deps),$(cat ${DEPS_DIR}/zmq_deps),$(cat ${DEPS_DIR}/upnp_deps)"
+#         ;;
+#     min) ;;
+#     *)
+#         echo "Unknown additional packages packs"
+#         display_help
+#         exit 1
+#         ;;
+# esac
 
 [ -d ${TARGET_DIRECTORY} ] && rm -rf ${TARGET_DIRECTORY}
 

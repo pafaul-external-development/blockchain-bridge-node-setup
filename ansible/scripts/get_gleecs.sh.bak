@@ -1,0 +1,26 @@
+#!/bin/bash
+
+GLEECS_LINK="https://github.com/Gleecs/GleecBTC-FullNode-Win-Mac-Linux/releases/download/v0.20.3/v0.20.3.tar.gz"
+TIMESTAMP=$(date '+%d-%m-%y')
+
+echo_and_exit() {
+    if [ $1 -ne 0 ]
+    then
+        echo $2
+        exit 1
+    fi
+}
+
+cd /opt/gleecs
+echo_and_exit $? "Directory /opt/gleecs is not presented. Exiting."
+
+echo "${TIMESTAMP}" > /opt/gleecs/.latest_download
+
+wget ${GLEECS_LINK} -O gleecs.tar.gz
+echo_and_exit $? "Cannot download gleecs. Exiting."
+
+GLEECS_DIR=/opt/gleecs/gleecs-${TIMESTAMP}
+mkdir ${GLEECS_DIR}
+
+tar -xf gleecs.tar.gz -C ${GLEECS_DIR}
+echo_and_exit $? "Cannot unpack gleecs. Exiting."

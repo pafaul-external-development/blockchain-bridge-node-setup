@@ -1,0 +1,12 @@
+---
+- name: Host setup
+  become_method: sudo
+  hosts: Host
+  tasks:
+  - name: Installing required packages
+    apt:
+      pkg:
+      - wget
+      - debootstrap
+      - systemd-container
+      - sshpass

@@ -1,8 +1,8 @@
 #!/bin/bash
 DIRROOT=$(cd $(dirname $0) && pwd)
 
-VAULT_LINK="https://github.com/bitcoinvault/bitcoinvault/archive/v2.0.1.tar.gz"
-GLEECS_LINK="https://github.com/Gleecs/GleecBTC-FullNode-Win-Mac-Linux/releases/download/v0.20.2/v20.0.2.tar.gz"
+VAULT_LINK="https://github.com/bitcoinvault/bitcoinvault/archive/v2.1.0.tar.gz"
+GLEECS_LINK="https://github.com/Gleecs/GleecBTC-FullNode-Win-Mac-Linux/releases/download/v0.20.3/v0.20.3.tar.gz"
 
 [ ! -d ${DIRROOT}/tmp ] && mkdir ${DIRROOT}/tmp
 

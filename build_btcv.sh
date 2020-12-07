@@ -22,10 +22,11 @@ fi
 timestamp=$(cat ${DIRROOT}/tmp/timestamp)
 BTCV_DIR=$(cat ${DIRROOT}/tmp/btcv_dir)
 
+echo "Restoring build container default state"
+
 cp -r ${CHROOT_ORIG} ${BUILD_DIR}
 systemd-nspawn -D ${BUILD_DIR} \
     --bind="${BTCV_DIR}":/opt/btcv \
-    --bind="${DIRROOT}/scripts":/opt/scripts \
     /bin/bash /opt/scripts/build.sh
 
 res=$?
@@ -37,3 +38,20 @@ else
     echo "Errors during build of btcv"
     exit 1
 fi
+
+systemd-nspawn -D ${BUILD_DIR} \
+    --bind="${BTCV_DIR}":/opt/btcv \
+    --bind="${DIRROOT}/scripts":/opt/scripts \
+    /bin/bash /opt/scripts/test_build.sh
+
+if [ $res -eq 0 ]
+then
+    echo "Tests passed"
+else
+    echo "Tests failed"
+    exit 1
+fi
+
+systemd-nspawn -D ${BUILD_DIR} \
+    --bind="/home/pavel/build/build/build-01-12-20/btcv//bitcoinvault-2.0.1":/opt/btcv \
+    /bin/bash /opt/scripts/build.sh
