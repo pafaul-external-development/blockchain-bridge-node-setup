@@ -74,6 +74,7 @@ parse_input_parameters() {
                 echo "Unknown parameter"
                 display_help
                 exit 1
+                ;;
         esac
     done
 }
