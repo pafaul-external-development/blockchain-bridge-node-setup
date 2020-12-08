@@ -6,22 +6,3 @@ ip_address
 
 [btcv]
 ip_address
-
-
-[Host:vars]
-ansible_user=
-ansible_password=
-ansible_sudo_pass=
-ansible_python_interpreter=/usr/bin/python3
-
-[gleecs:vars]
-ansible_user=
-ansible_password=
-ansible_sudo_pass=
-ansible_python_interpreter=/usr/bin/python3
-
-[btcv:vars]
-ansible_user=
-ansible_password=
-ansible_sudo_pass=
-ansible_python_interpreter=/usr/bin/python3
