@@ -4,7 +4,7 @@
   This repository is for nodes setup for BitcoinVault and Gleecs using Bash scripts and Ansible
 
 ## Required setup
-  To use existing scripts you should modify two files: \
+  To use existing scripts you should modify two files: 
   1. ansible/hosts
   2. ansible/download_links
   
