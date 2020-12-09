@@ -22,12 +22,9 @@ display_help() {
     echo "Bash script to configure host and install gleecs and BTCV on nodes"
     echo
     echo "Possible arguments:"
-    echo "  -b, --btcv           Run btcv installation"
-    echo "  -g, --gleecs         Run gleecs installation"
     echo "  -p, --passwd-file    File with password for vault."
     echo "                       Format: tag@filename"
     echo "  --no-encryption      Disables encryption options"
-    echo "  --host               Run host setup"
     echo "  -h, --help           Show this message and exit"
     echo "If no arguments specified, silently exits."
 }
@@ -40,21 +37,7 @@ parse_input_parameters() {
             break
         fi
 
-        case $1 in
-            --host)
-                HOST=0
-                shift
-                ;;
-            -b | --btcv)
-                BTCV=0
-                shift
-                ;;
-
-            -g | --gleecs)
-                GLEECS=0
-                shift
-                ;;
-            
+        case $1 in          
             -p | --passwd-file)
                 PASSWORD_FILE=$2
                 shift 2
@@ -80,14 +63,7 @@ parse_input_parameters() {
 }
 
 check_values() {
-    [ -z $HOST ] && HOST=1
-    [ -z $BTCV ] && BTCV=1
-    [ -z $GLEECS ] && GLEECS=1
     [ -z $NO_ENCRYPTION ] && NO_ENCRYPTION=1
-    [ -z ${BTCV_DIR} ] && BTCV_DIR=/opt/btcv
-    [ -z ${GLEECS_DIR} ] && GLEECS_DIR=/opt/gleecs
-    [ -z ${BTCV_LINK} ] && [ $BTCV -eq 0 ] && echo_and_exit 1 "Link for BTCV download is absent. Exiting."
-    [ -z ${GLEECS_LINK} ] && [ $GLEECS -eq 0 ] && echo_and_exit 1 "Link for GLEECS download is absent. Exiting."
     if [ ! -z ${PASSWORD_FILE} ]
     then
         file_name=${PASSWORD_FILE#*@}
@@ -105,46 +81,17 @@ get_pass_options() {
     fi
 }
 
-run_btcv() {
-    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/setup_btcv_node.yaml \
+run_nodes() {
+    CD=${DIRROOT}/conf
+    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/run_nodes.yaml \
         --extra-vars \
-        "script_dir=${DIRROOT}/scripts btcv_link=${BTCV_LINK} btcv_dir=${BTCV_DIR}" \
+        "btcv_conf_file_local=${CD}/btcv.conf btcv_conf_file_dest=/opt/btcv/btcv.conf gleecs_conf_file_local=${CD}/gleecs.conf gleecs_conf_file_dest=/opt/gleecs/gleecs.conf script_dir=${DIRROOT}/scripts" \
         ${ADDITIONAL_OPTIONS}
-    echo_and_exit $? "Cannot setup btcv node"
-    echo "BTCV node setup successfull"
-}
-
-run_gleecs() {
-    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/setup_gleecs_node.yaml \
-        --extra-vars \
-        "script_dir=${DIRROOT}/scripts gleecs_link=${GLEECS_LINK} gleecs_dir=${GLEECS_DIR}" \
-        ${ADDITIONAL_OPTIONS}
-    echo_and_exit $? "Cannot setup gleecs node"
-    echo "GLEECS node setup successfull"
-}
-
-run_host() {
-    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/setup_host.yaml \
-        ${ADDITIONAL_OPTIONS}
-    echo_and_exit $? "Host configuration failed"
-    echo "Host configuration successfull"
+    echo_and_exit $? "Cannot start BTCV or Gleecs nodes"
 }
 
 parse_input_parameters $@
 check_values
 get_pass_options
 
-if [ $HOST -eq 0 ]
-then
-    run_host
-fi
-
-if [ $BTCV -eq 0 ]
-then
-    run_btcv
-fi
-
-if [ $GLEECS -eq 0 ]
-then
-    run_gleecs
-fi
+run_nodes

@@ -9,7 +9,7 @@
       path: "{{ gleecs_dir }}"
       state: directory
 
-  - name: Installig required packages
+  - name: Installing required packages
     apt:
       pkg:
       - build-essential

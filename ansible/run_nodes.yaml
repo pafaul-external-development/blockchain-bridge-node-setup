@@ -1,0 +1,24 @@
+---
+- name: Starting up BTCV node
+  hosts: btcv
+  become: yes
+  tasks:
+  - name: Copy configuration file to BTCV node
+    copy:
+      src: "{{ btcv_conf_file_local }}"
+      dest: "{{ btcv_conf_file_dest }}"
+
+  - name: Run BTCV node with provided configuration
+    script: "{{ script_dir }}/run_btcv.sh {{ btcv_conf_file_dest }}"
+
+- name: Starting up Gleecs node
+  hosts: gleecs
+  become: yes
+  tasks:
+  - name: Copy configuration file to Gleecs node
+    copy:
+      src: "{{ gleecs_conf_file_local }}"
+      dest: "{{ gleecs_conf_file_dest }}"
+
+  - name: Run Gleecs node with provided configuration
+    script: "{{ script_dir }}/run_gleecs.sh {{ gleecs_conf_file_dest }}"

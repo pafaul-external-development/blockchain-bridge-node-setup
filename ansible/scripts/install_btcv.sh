@@ -25,3 +25,4 @@ BTCV_DIR_LATEST=${BTCV_DIR}/btcv-${TIMESTAMP}/
 BTCV_DIR_LATEST=${BTCV_DIR_LATEST}/$(ls ${BTCV_DIR_LATEST})
 cd ${BTCV_DIR_LATEST}
 echo_and_exit $? "Latest BTCV dir is not presented. Try to re-run ansible script. Exiting."
+make install

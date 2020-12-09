@@ -11,7 +11,7 @@
   - name: Preconfiguring node
     script: "{{ script_dir }}/configure_node.sh"
 
-  - name: Installig required packages
+  - name: Installing required packages
     apt:
       pkg:
       - build-essential
