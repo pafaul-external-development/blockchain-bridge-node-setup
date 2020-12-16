@@ -8,8 +8,8 @@
       path: "{{ btcv_dir }}"
       state: directory
 
-  - name: Preconfiguring node
-    script: "{{ script_dir }}/configure_node.sh"
+  # - name: Preconfiguring node
+  #   script: "{{ script_dir }}/configure_node.sh"
 
   - name: Installing required packages
     apt:

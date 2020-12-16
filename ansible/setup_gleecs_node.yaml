@@ -38,8 +38,8 @@
       - libqrencode-dev
       - wget
 
-  - name: Preconfiguring node
-    script: "{{ script_dir }}/configure_node.sh"
+  # - name: Preconfiguring node
+  #   script: "{{ script_dir }}/configure_node.sh"
 
   - name: Downloading latest known release from github
     script: "{{ script_dir }}/download_script.sh {{ gleecs_link }} {{ gleecs_dir }} gleecs"
