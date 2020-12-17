@@ -34,13 +34,18 @@ class EndPointRequests {
         return null;
     }
 
+    async getBalance(userId) {
+        let balance = await this.requests.get_balance(userId);
+        return balance;
+    }
+
     /**
      * Get user transaction history
      * @param {String} userId 
      */
     async getHistory(userId) {
         let history = await this.requests.list_transactions(userId, 9999);
-        return history
+        return history;
     }
 
     /**
@@ -73,3 +78,5 @@ class EndPointRequests {
         return fee;
     }
 }
+
+module.exports = EndPointRequests;
