@@ -193,3 +193,5 @@ class Requests {
         }
     }
 }
+
+module.exports = Requests;
