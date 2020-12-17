@@ -30,11 +30,16 @@ class Requests {
      * @param {String} userId 
      */
     async create_wallet(userId) {
-        let response = await this.instance.post_request('', 'createwallet', [String(userId)]);
-        if (!response.error)
-            return response.data.result;
-        else
+        try {
+            let response = await this.instance.post_request('', 'createwallet', [String(userId)]);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -42,12 +47,17 @@ class Requests {
      * @param {String} userId 
      */
     async get_new_address(userId) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'getnewadress', []);
-        if (!response.error) 
-            return response.data.result;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'getnewadress', []);
+            if (!response.error) 
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -56,12 +66,17 @@ class Requests {
      * @param {String} address 
      */
     async dump_priv_key(userId, address) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'dumpprivkey', [address]);
-        if (!response.error)
-            return response.data.result;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'dumpprivkey', [address]);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
     
     /**
@@ -72,12 +87,17 @@ class Requests {
      * @param {Boolean} rescan 
      */
     async import_address(userId, address, label, rescan) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'importaddress', [address, label, rescan]);
-        if (!response.error)
-            return response.data.result;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'importaddress', [address, label, rescan]);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -86,12 +106,17 @@ class Requests {
      * @param {Number} count 
      */
     async list_transactions(userId, count) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'listtransactions', [count]);
-        if (!response.error)
-            return response.data.result;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'listtransactions', [String(count)]);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -99,12 +124,17 @@ class Requests {
      * @param {String} userId 
      */
     async get_balance(userId) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'getbalance', []);
-        if (!response.error)
-            return response.data.result;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'getbalance', []);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -113,12 +143,17 @@ class Requests {
      * @param {String} txId 
      */
     async get_transaction(userId, txId) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'gettransaction', [txId]);
-        if (!response.error)
-            return response.data.result;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'gettransaction', [txId]);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -128,12 +163,17 @@ class Requests {
      * @param {String} amount 
      */
     async send_to_address(userId, address, amount) {
-        let path = '/wallet/' + userId;
-        let response = await this.instance.post_request(path, 'sendtoaddress', [address, amount]);
-        if (!response.error)
-            return response.data.result.txId;
-        else
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'sendtoaddress', [address, amount]);
+            if (!response.error)
+                return response.data.result.txId;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 
     /**
@@ -141,10 +181,15 @@ class Requests {
      * @param {Number} confirmation_target 
      */
     async estimate_smart_fee(confirmation_target) {
-        let response = await this.instance.post_request('', 'estimatesmartfee', [confirmation_target]);
-        if (!response.error)
-            return response.data.result.feerate;
-        else
+        try {
+            let response = await this.instance.post_request('', 'estimatesmartfee', [confirmation_target]);
+            if (!response.error)
+                return response.data.result.feerate;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
             return null;
+        }
     }
 }
