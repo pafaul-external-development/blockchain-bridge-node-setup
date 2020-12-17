@@ -138,6 +138,24 @@ class Requests {
     }
 
     /**
+     * Get wallet info of userId
+     * @param {String} userId 
+     */
+    async get_wallet_info(userId) {
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'getwalletinfo', []);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
+    }
+
+    /**
      * Get transaction info
      * @param {String} userId 
      * @param {String} txId 

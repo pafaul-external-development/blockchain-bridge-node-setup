@@ -34,6 +34,23 @@ class EndPointRequests {
         return null;
     }
 
+    /**
+     * Get walletInformation
+     * @param {String} userId 
+     */
+    async getWallet(userId) {
+        let walletInfo = await this.requests.get_wallet_info(userId);
+        if (walletInfo) {
+            let info = {
+                walletData: '',
+                balance: walletInfo.balance,
+                holdBalance: walletInfo.unconfirmed_balance
+            }
+            return info;
+        }
+        return null;
+    }
+
     async getBalance(userId) {
         let balance = await this.requests.get_balance(userId);
         return balance;
