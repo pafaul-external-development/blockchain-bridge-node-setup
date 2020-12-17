@@ -31,7 +31,7 @@ class Requests {
      */
     async create_wallet(userId) {
         try {
-            let response = await this.instance.post_request('', 'createwallet', [String(userId)]);
+            let response = await this.instance.post_request('', 'createwallet', [userId]);
             if (!response.error)
                 return response.data.result;
             else
@@ -49,7 +49,7 @@ class Requests {
     async get_new_address(userId) {
         try {
             let path = '/wallet/' + userId;
-            let response = await this.instance.post_request(path, 'getnewadress', []);
+            let response = await this.instance.post_request(path, 'getnewaddress', []);
             if (!response.error) 
                 return response.data.result;
             else

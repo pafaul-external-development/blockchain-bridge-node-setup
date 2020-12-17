@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd modules/ && node test_post_requests.js"
   },
   "repository": {
     "type": "git",
