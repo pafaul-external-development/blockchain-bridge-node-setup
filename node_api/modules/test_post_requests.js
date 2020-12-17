@@ -29,8 +29,8 @@ async function get_history(request_instance, wallet_name) {
 }
 
 async function test_wallet_creation() {
-    await wallet_creation(btcv_endpoint);
-    await wallet_creation(gleecs_endpoint);
+    await wallet_creation(btcv_endpoint, 'test_wallet');
+    await wallet_creation(gleecs_endpoint, 'test_wallet');
 }
 
 async function test_get_history() {
