@@ -16,17 +16,32 @@ let gleecs_request_instance = create_instance(config.gleecs);
 let btcv_endpoint = new EndPointRequests(btcv_request_instance);
 let gleecs_endpoint = new EndPointRequests(gleecs_request_instance);
 
-async function test_wallet_creation(request_instance, wallet_name) {
+async function wallet_creation(request_instance, wallet_name) {
     let data = await request_instance.createWallet(wallet_name);
     console.log(data);
     let balance = await request_instance.getBalance(wallet_name);
     console.log(balance);
 }
 
+async function get_history(request_instance, wallet_name) {
+    let data = await request_instance.getHistory(wallet_name);
+    console.log(data);
+}
+
+async function test_wallet_creation() {
+    await wallet_creation(btcv_endpoint);
+    await wallet_creation(gleecs_endpoint);
+}
+
+async function test_get_history() {
+    await get_history(btcv_endpoint, 'test_wallet');
+    await get_history(gleecs_endpoint, 'test_wallet');
+}
+
 async function main() {
-    await test_wallet_creation(btcv_endpoint);
-    await test_wallet_creation(gleecs_endpoint);
-    process.exit(0)
+    await test_wallet_creation();
+    await test_get_history();
+    process.exit(0);
 }
 
 main();
