@@ -1,0 +1,20 @@
+{
+  "name": "btcv_gleecs_api",
+  "version": "1.0.0",
+  "description": "API for interaction with BTCV and Gleecs nodes",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SVOIcom/blockchain-bridge-node-setup/node_api"
+  },
+  "author": "",
+  "license": "ISC"
+}
