@@ -152,3 +152,5 @@ class EndPointRequests {
         return fee;
     }
 }
+
+module.exports = EndPointRequests;
