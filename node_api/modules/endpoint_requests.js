@@ -24,7 +24,7 @@ class EndPointRequests {
      */
     setBtcvInstance(instance) {
         this.btcv.instance = instance;
-        this.btcv.requests.set_instance(instance);
+        this.btcv.requests.setInstance(instance);
     }
 
     /**
@@ -33,7 +33,7 @@ class EndPointRequests {
      */
     setGleecsInstance(instance) {
         this.gleecs.instance = instance;
-        this.gleecs.requests.set_instance(instance);
+        this.gleecs.requests.setInstance(instance);
     }
 
     /**

@@ -1,8 +1,8 @@
-const AxiosInstance = require('./request_instance');
+const AxiosInstance = require('./requestInstance');
 const EndPointRequests = require('./endpoint_requests');
 const config = require('../config');
 
-function create_instance(config) {
+function createInstance(config) {
     let address = 'http://' + config.address + ':' + config.port;
     let user = config.auth.user;
     let passwd = config.auth.passwd;
@@ -10,36 +10,36 @@ function create_instance(config) {
     return instance;
 }
 
-let btcv_request_instance = create_instance(config.btcv);
-let gleecs_request_instance = create_instance(config.gleecs);
+let btcvRequestInstance = createInstance(config.btcv);
+let gleecsRequestInstance = createInstance(config.gleecs);
 
-let btcv_endpoint = new EndPointRequests(btcv_request_instance);
-let gleecs_endpoint = new EndPointRequests(gleecs_request_instance);
+let btcvEndpoint = new EndPointRequests(btcvRequestInstance);
+let gleecsEndpoint = new EndPointRequests(gleecsRequestInstance);
 
-async function wallet_creation(request_instance, wallet_name) {
-    let data = await request_instance.createWallet(wallet_name);
+async function walletCreation(requestInstance, wallet_name) {
+    let data = await requestInstance.createWallet(wallet_name);
     console.log(data);
-    let balance = await request_instance.getBalance(wallet_name);
+    let balance = await requestInstance.getBalance(wallet_name);
     console.log(balance);
 }
 
-async function get_history(request_instance, wallet_name) {
-    let data = await request_instance.getHistory(wallet_name);
+async function get_history(requestInstance, wallet_name) {
+    let data = await requestInstance.getHistory(wallet_name);
     console.log(data);
 }
 
-async function test_wallet_creation() {
-    await wallet_creation(btcv_endpoint, 'test_wallet');
-    await wallet_creation(gleecs_endpoint, 'test_wallet');
+async function test_walletCreation() {
+    await walletCreation(btcvEndpoint, 'test_wallet');
+    await walletCreation(gleecsEndpoint, 'test_wallet');
 }
 
 async function test_get_history() {
-    await get_history(btcv_endpoint, 'test_wallet');
-    await get_history(gleecs_endpoint, 'test_wallet');
+    await get_history(btcvEndpoint, 'test_wallet');
+    await get_history(gleecsEndpoint, 'test_wallet');
 }
 
 async function main() {
-    await test_wallet_creation();
+    await test_walletCreation();
     await test_get_history();
     process.exit(0);
 }

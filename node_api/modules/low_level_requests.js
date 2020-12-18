@@ -14,14 +14,14 @@ class LowLevelRequests {
      * Set used instance
      * @param {AxiosInstance} instance 
      */
-    set_instance(instance) {
+    setInstance(instance) {
         this.instance = instance;
     }
 
     /** 
      * Get current instance
     */
-    get_instance() {
+    getInstance() {
         return this.instance;
     }
 
@@ -29,7 +29,7 @@ class LowLevelRequests {
      * Create new wallet for user
      * @param {String} userId 
      */
-    async create_wallet(userId) {
+    async createWallet(userId) {
         try {
             let response = await this.instance.post_request('', 'createwallet', [userId]);
             if (!response.error)
@@ -46,7 +46,7 @@ class LowLevelRequests {
      * Generate new address
      * @param {String} userId 
      */
-    async get_new_address(userId) {
+    async getNewAddress(userId) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'getnewaddress', []);
@@ -65,7 +65,7 @@ class LowLevelRequests {
      * @param {String} userId
      * @param {String} address 
      */
-    async dump_priv_key(userId, address) {
+    async dupmPrivKey(userId, address) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'dumpprivkey', [address]);
@@ -86,7 +86,7 @@ class LowLevelRequests {
      * @param {String} label 
      * @param {Boolean} rescan 
      */
-    async import_address(userId, address, label, rescan) {
+    async importAddress(userId, address, label, rescan) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'importaddress', [address, label, rescan]);
@@ -105,7 +105,7 @@ class LowLevelRequests {
      * @param {String} userId 
      * @param {Number} count 
      */
-    async list_transactions(userId, count) {
+    async listTransactions(userId, count) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'listtransactions', [String(count)]);
@@ -123,7 +123,7 @@ class LowLevelRequests {
      * Get balance of user
      * @param {String} userId 
      */
-    async get_balance(userId) {
+    async getBalance(userId) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'getbalance', []);
@@ -141,7 +141,7 @@ class LowLevelRequests {
      * Get wallet info of userId
      * @param {String} userId 
      */
-    async get_wallet_info(userId) {
+    async getWalletInfo(userId) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'getwalletinfo', []);
@@ -160,7 +160,7 @@ class LowLevelRequests {
      * @param {String} userId 
      * @param {String} txId 
      */
-    async get_transaction(userId, txId) {
+    async getTransaction(userId, txId) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'gettransaction', [txId]);
@@ -180,7 +180,7 @@ class LowLevelRequests {
      * @param {String} address 
      * @param {String} amount 
      */
-    async send_to_address(userId, address, amount) {
+    async sendToAddress(userId, address, amount) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'sendtoaddress', [address, amount]);
@@ -198,7 +198,7 @@ class LowLevelRequests {
      * Estimate fee per Kb
      * @param {Number} confirmation_target 
      */
-    async estimate_smart_fee(confirmation_target) {
+    async estimateSmartFee(confirmation_target) {
         try {
             let response = await this.instance.post_request('', 'estimatesmartfee', [confirmation_target]);
             if (!response.error)
