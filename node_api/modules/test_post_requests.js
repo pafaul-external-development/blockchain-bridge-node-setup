@@ -23,24 +23,24 @@ async function walletCreation(requestInstance, wallet_name) {
     console.log(balance);
 }
 
-async function get_history(requestInstance, wallet_name) {
+async function getHistory(requestInstance, wallet_name) {
     let data = await requestInstance.getHistory(wallet_name);
     console.log(data);
 }
 
-async function test_walletCreation() {
+async function testWalletCreation() {
     await walletCreation(btcvEndpoint, 'test_wallet');
     await walletCreation(gleecsEndpoint, 'test_wallet');
 }
 
-async function test_get_history() {
-    await get_history(btcvEndpoint, 'test_wallet');
-    await get_history(gleecsEndpoint, 'test_wallet');
+async function testGetHistory() {
+    await getHistory(btcvEndpoint, 'test_wallet');
+    await getHistory(gleecsEndpoint, 'test_wallet');
 }
 
 async function main() {
-    await test_walletCreation();
-    await test_get_history();
+    await testWalletCreation();
+    await testGetHistory();
     process.exit(0);
 }
 
