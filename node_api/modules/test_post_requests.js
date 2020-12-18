@@ -1,5 +1,5 @@
-const AxiosInstance = require('./requestInstance');
-const EndPointRequests = require('./endpoint_requests');
+const AxiosInstance = require('./request_instance');
+const HighLevelRequests = require('./high_level_requests');
 const config = require('../config');
 
 function createInstance(config) {
@@ -13,8 +13,8 @@ function createInstance(config) {
 let btcvRequestInstance = createInstance(config.btcv);
 let gleecsRequestInstance = createInstance(config.gleecs);
 
-let btcvEndpoint = new EndPointRequests(btcvRequestInstance);
-let gleecsEndpoint = new EndPointRequests(gleecsRequestInstance);
+let btcvEndpoint = new HighLevelRequests(btcvRequestInstance);
+let gleecsEndpoint = new HighLevelRequests(gleecsRequestInstance);
 
 async function walletCreation(requestInstance, wallet_name) {
     let data = await requestInstance.createWallet(wallet_name);
