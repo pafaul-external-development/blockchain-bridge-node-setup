@@ -1,103 +1,135 @@
 const AxiosInstance = require('./request_instance');
-const Requests = require('./requests');
+const HighLevelRequests = require('./high_level_requests');
 
 class EndPointRequests {
     /**
      * 
+     * @param {AxiosInstance} btcvInstance 
+     * @param {AxiosInstance} gleecsInstance 
+     */
+    constructor(btcvInstance, gleecsInstance) {
+        this.btcv = {
+            instance: btcvInstance,
+            requests: new HighLevelRequests(btcvInstance)
+        };
+        this.gleecs = {
+            instance: gleecsInstance,
+            requests: new HighLevelRequests(gleecsInstance)
+        };
+    }
+
+    /**
+     * 
      * @param {AxiosInstance} instance 
      */
-    constructor(instance=null) {
-        this.instance = instance;
-        this.requests = new Requests(instance);
+    setBtcvInstance(instance) {
+        this.btcv.instance = instance;
+        this.btcv.requests.set_instance(instance);
     }
 
     /**
-     * Set instance of axios to handle requests
+     * 
      * @param {AxiosInstance} instance 
      */
-    set_instance(instance) {
-        this.instance = instance;
-        this.requests.set_instance(instance);
+    setGleecsInstance(instance) {
+        this.gleecs.instance = instance;
+        this.gleecs.requests.set_instance(instance);
     }
 
     /**
-     * Create wallet for user
+     * 
+     * @param {String} currency 
      * @param {String} userId 
+     * @param {String} callbackUrl 
      */
-    async createWallet(userId) {
-        let wallet = await this.requests.create_wallet(userId);
-        if (wallet) {
-            let pubkey = await this.requests.get_new_address(userId);
-            if (pubkey) 
-                return [wallet, pubkey];
-        }
-        return null;
-    }
-
-    /**
-     * Get walletInformation
-     * @param {String} userId 
-     */
-    async getWallet(userId) {
-        let walletInfo = await this.requests.get_wallet_info(userId);
-        if (walletInfo) {
-            let info = {
-                walletData: '',
-                balance: walletInfo.balance,
-                holdBalance: walletInfo.unconfirmed_balance
+    async createWallet(currency, userId, callbackUrl) {
+        // TODO проверка есть ли у пользователя кошелёк для currency 
+        let walletExists = false;
+        if (!walletExists) {
+            let walletToCreate = (currency == 'BTCV') ? 'btcv' : 'gleecs';
+            let walletId = null;
+            let walletData = await this[walletToCreate].createWallet(walletId);
+            if (walletData) {
+                // TODO вызов url и запись в БД
+            } else {
+                // TODO обработка
             }
-            return info;
         }
-        return null;
     }
 
     /**
-     * Get user transaction history
+     * 
      * @param {String} userId 
      */
-    async getHistory(userId) {
-        let history = await this.requests.list_transactions(userId, 9999);
-        let transactionsInfo = [];
-        history.forEach((tx) => {
-            transactionsInfo.push({
-                address: tx.address,
-                status: tx.details? tx.details.category : null,
-                fee: tx.fee,
-                abandoned: tx.details? tx.details.abandoned : null
-            })
-        })
-        return transactionsInfo;
+    async getUserWallets(userId) {
+        // TODO запрос в бд и получение кошельков
+        let existingWallets = [];
+        let walletInfo = [];
+        existingWallets.forEach((walletData) => {
+            let wallet = await this[walletData.currency].getWalletInfo(walletData.id);
+            walletInfo.push([walletData.currency, wallet]);
+        });
+        return walletInfo;
     }
 
     /**
-     * Get transaction info
+     * 
+     * @param {String} walletId 
+     */
+    async getHistory(walletId) {
+        // TODO придумать ID кошелька и получение валюты кошелька
+        let currency = 'btcv';
+        if (currency) {
+            let walletInfo = await this[currency].getWalletInfo(walletId);
+            return walletInfo;
+        }
+        return 
+    }
+
+    /**
+     * 
      * @param {String} userId 
+     */
+    async getUserHistory(userId) {
+        // TODO получение кошельков пользователя
+        let wallets = [];
+        let history = [];
+        wallets.forEach((walletData) => {
+            let walletHistory = await this[walletData.name].getHistory(walletData.id);
+            history.push([walletData.name, walletHistory]);
+        })
+        return history;
+    }
+
+    /**
+     * 
+     * @param {String} userId 
+     * @param {String} currency 
      * @param {String} txId 
      */
-    async getTxData(userId, txId) {
-        let txData = await this.requests.get_transaction(userId, txId);
-
-        let txInfo = {
-            address: txData.address,
-            status: txData.details? txData.details.category : null,
-            fee: tx.fee,
-            abandoned: txData.details? tx.details.abandoned : null
-        }
-        return txInfo;
+    async getTxData(userId, currency, txId) {
+        // TODO получение кошелька с которого была произведена транзакция
+        let wallet = null;
+        let txData = await this[wallet.name].getTxData(wallet.id, txId);
+        return txData;
     }
 
     /**
-     * Send funds to address
+     * 
+     * @param {String} currency 
      * @param {String} userId 
      * @param {String} to 
-     * @param {String} amount 
+     * @param {Number} amount 
+     * @param {function} callback 
      */
-    async createTx(userId, to, amount) {
-        let txId = await this.requests.send_to_address(userId, to, amount);
-        if (txId) {
-            let txData = await this.getTxData(userId, txId);
-            if (txData) {
-                txData.txId = txId;
+    async createTx(currency, userId, to, amount, callback) {
+        // TODO получение кошелька пользователя с валютой
+        let wallet = null;
+        let txData = await this[wallet.name].createTx(wallet.id, to, String(amount));
+        if (txData) {
+            if (txData.txId) {
+                // был получен txId и данные по транзакции на текущий момент
+                // TODO вызов callback
                 return txData;
             }
             return txId;
@@ -106,13 +138,17 @@ class EndPointRequests {
     }
 
     /**
-     * Estimate possible fee
-     * @param {Number} confirmation_blocks 
+     * 
+     * @param {String} currency 
+     * @param {String} userId 
+     * @param {String} to 
+     * @param {Number} amount 
      */
-    async getTxComission(confirmation_blocks) {
-        let fee = await this.requests.estimate_smart_fee(confirmation_blocks);
+    async getTxComission(currency, userId, to, amount) {
+        // TODO получение кошелька пользователя
+        let wallet = null;
+        let confirmation_blocks = null;
+        let fee = await this[wallet.name].getTxComission(confirmation_blocks);
         return fee;
     }
 }
-
-module.exports = EndPointRequests;

@@ -1,6 +1,6 @@
 const AxiosInstance = require('./request_instance');
 
-class Requests {
+class LowLevelRequests {
     /**
      * 
      * @param {AxiosInstance} instance 
@@ -212,4 +212,4 @@ class Requests {
     }
 }
 
-module.exports = Requests;
+module.exports = LowLevelRequests;
