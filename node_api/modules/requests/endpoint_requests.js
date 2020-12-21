@@ -1,5 +1,6 @@
 const AxiosInstance = require('./request_instance');
 const HighLevelRequests = require('./high_level_requests');
+const getWalletId = require('../utils/utils');
 
 class EndPointRequests {
     /**

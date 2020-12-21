@@ -1,6 +1,6 @@
-const AxiosInstance = require('./request_instance');
-const HighLevelRequests = require('./high_level_requests');
-const config = require('../config');
+const AxiosInstance = require('../requests/request_instance');
+const HighLevelRequests = require('../requests/high_level_requests');
+const config = require('../../config');
 
 function createInstance(config) {
     let address = 'http://' + config.address + ':' + config.port;
