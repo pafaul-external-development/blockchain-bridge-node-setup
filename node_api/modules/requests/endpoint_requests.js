@@ -48,7 +48,8 @@ class EndPointRequests {
         let walletExists = false;
         if (!walletExists) {
             let walletToCreate = (currency == 'BTCV') ? 'btcv' : 'gleecs';
-            let walletId = null;
+            let walletId = getWalletId(currency, userId);
+
             let walletData = await this[walletToCreate].createWallet(walletId);
             if (walletData) {
                 // TODO вызов url и запись в БД
@@ -63,12 +64,12 @@ class EndPointRequests {
      * @param {String} userId 
      */
     async getUserWallets(userId) {
-        // TODO запрос в бд и получение кошельков
+        // TODO запрос в бд и получение кошельков, а также адресов
         let existingWallets = [];
         let walletInfo = [];
         existingWallets.forEach((walletData) => {
             let wallet = await this[walletData.currency].getWalletInfo(walletData.id);
-            walletInfo.push([walletData.currency, wallet]);
+            walletInfo.push([walletData.currency, wallet, pubkey]);
         });
         return walletInfo;
     }
