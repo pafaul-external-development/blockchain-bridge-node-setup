@@ -1,6 +1,6 @@
 const AxiosInstance = require('./request_instance');
 
-class Requests {
+class LowLevelRequests {
     /**
      * 
      * @param {AxiosInstance} instance 
@@ -14,14 +14,14 @@ class Requests {
      * Set used instance
      * @param {AxiosInstance} instance 
      */
-    set_instance(instance) {
+    setInstance(instance) {
         this.instance = instance;
     }
 
     /** 
      * Get current instance
     */
-    get_instance() {
+    getInstance() {
         return this.instance;
     }
 
@@ -29,9 +29,9 @@ class Requests {
      * Create new wallet for user
      * @param {String} userId 
      */
-    async create_wallet(userId) {
+    async createWallet(userId) {
         try {
-            let response = await this.instance.post_request('', 'createwallet', [String(userId)]);
+            let response = await this.instance.post_request('', 'createwallet', [userId]);
             if (!response.error)
                 return response.data.result;
             else
@@ -46,10 +46,10 @@ class Requests {
      * Generate new address
      * @param {String} userId 
      */
-    async get_new_address(userId) {
+    async getNewAddress(userId) {
         try {
             let path = '/wallet/' + userId;
-            let response = await this.instance.post_request(path, 'getnewadress', []);
+            let response = await this.instance.post_request(path, 'getnewaddress', []);
             if (!response.error) 
                 return response.data.result;
             else
@@ -65,7 +65,7 @@ class Requests {
      * @param {String} userId
      * @param {String} address 
      */
-    async dump_priv_key(userId, address) {
+    async dupmPrivKey(userId, address) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'dumpprivkey', [address]);
@@ -86,7 +86,7 @@ class Requests {
      * @param {String} label 
      * @param {Boolean} rescan 
      */
-    async import_address(userId, address, label, rescan) {
+    async importAddress(userId, address, label, rescan) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'importaddress', [address, label, rescan]);
@@ -105,7 +105,7 @@ class Requests {
      * @param {String} userId 
      * @param {Number} count 
      */
-    async list_transactions(userId, count) {
+    async listTransactions(userId, count) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'listtransactions', [String(count)]);
@@ -123,10 +123,28 @@ class Requests {
      * Get balance of user
      * @param {String} userId 
      */
-    async get_balance(userId) {
+    async getBalance(userId) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'getbalance', []);
+            if (!response.error)
+                return response.data.result;
+            else
+                return null;
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
+    }
+
+    /**
+     * Get wallet info of userId
+     * @param {String} userId 
+     */
+    async getWalletInfo(userId) {
+        try {
+            let path = '/wallet/' + userId;
+            let response = await this.instance.post_request(path, 'getwalletinfo', []);
             if (!response.error)
                 return response.data.result;
             else
@@ -142,7 +160,7 @@ class Requests {
      * @param {String} userId 
      * @param {String} txId 
      */
-    async get_transaction(userId, txId) {
+    async getTransaction(userId, txId) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'gettransaction', [txId]);
@@ -162,7 +180,7 @@ class Requests {
      * @param {String} address 
      * @param {String} amount 
      */
-    async send_to_address(userId, address, amount) {
+    async sendToAddress(userId, address, amount) {
         try {
             let path = '/wallet/' + userId;
             let response = await this.instance.post_request(path, 'sendtoaddress', [address, amount]);
@@ -180,7 +198,7 @@ class Requests {
      * Estimate fee per Kb
      * @param {Number} confirmation_target 
      */
-    async estimate_smart_fee(confirmation_target) {
+    async estimateSmartFee(confirmation_target) {
         try {
             let response = await this.instance.post_request('', 'estimatesmartfee', [confirmation_target]);
             if (!response.error)
@@ -193,3 +211,5 @@ class Requests {
         }
     }
 }
+
+module.exports = LowLevelRequests;

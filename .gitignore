@@ -1,3 +1,2 @@
-/node_modules
-/database/bc_bridge.sqlite
-package-lock.json
+node_api/node_modules/
+*/bc_bridge.sqlite

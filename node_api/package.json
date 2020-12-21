@@ -5,11 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.21.0",
+    "crypto-js": "^4.0.0",
     "https": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd modules/tests && node test_post_requests.js"
   },
   "repository": {
     "type": "git",
