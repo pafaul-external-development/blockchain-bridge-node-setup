@@ -41,7 +41,7 @@ async function chainTest(endPoint, currency, testConfig) {
 async function main() {
     let endPoint = setup();
     // let btcvRes = await chainTest(endPoint, config.testBTCV);
-    let gleecsRes = await chainTest(endPoint, config.gleecs);
+    let gleecsRes = await chainTest(endPoint, 'GLEECS', config.gleecs);
     // console.log(JSON.stringify(btcvRes, null, '\t'))
     console.log(JSON.stringify(gleecsRes, null, '\t'))
 }
