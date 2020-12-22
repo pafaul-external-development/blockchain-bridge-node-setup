@@ -72,10 +72,10 @@ class EndPointRequests {
     async getUserWallets(userId) {
         let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
         let walletInfo = [];
-        existingWallets.forEach(async (walletData) => {
+        for (const walletData of existingWallets) {
             let wallet = await this[walletData.wallet_currency].getWallet(walletData.wallet_id);
             walletInfo.push([walletData.wallet_currency, wallet, walletData.pub_key]);
-        });
+        }
         return walletInfo;
     }
 
@@ -99,10 +99,10 @@ class EndPointRequests {
     async getUserHistory(userId) {
         let wallets = await this.database.getAllKeyVaultsByUserId(userId);
         let history = [];
-        wallets.forEach((walletData) => {
+        for (const walletData of wallets) {
             let walletHistory = await this[walletData.wallet_currency].getHistory(walletData.wallet_id);
             history.push([walletData.wallet_currency, walletHistory]);
-        })
+        }
         return history;
     }
 
