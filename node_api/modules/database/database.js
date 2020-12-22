@@ -203,6 +203,15 @@ class Database{
     }
 
     /**
+     * Получение кошелька по wallet_id
+     * @param {String} wallet_id 
+     * @return {Object || false}
+     */
+    async getKeyVaultByWalletId(wallet_id) {
+
+    }
+
+    /**
      * Возвращает все key_vault пользователя по user_id
      * @param {String} user_id // Check
      * @return {Object || false}
