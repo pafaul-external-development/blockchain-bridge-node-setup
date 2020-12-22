@@ -35,8 +35,8 @@ async function setup() {
  * @param {JSON} testConfig
  */
 async function chainTest(endPoint, currency, testConfig) {
-    let user1 = endPoint.getUserWallets(currency, testConfig.userIds[0], '');
-    let user2 = endPoint.getUserWallets(currency, testConfig.userIds[1], '');
+    let user1 = await endPoint.getUserWallets(currency, testConfig.userIds[0], '');
+    let user2 = await endPoint.getUserWallets(currency, testConfig.userIds[1], '');
     return JSON.stringify(user1, null, '\t') + '\n' + JSON.stringify(user2, null, '\t');
 }
 
