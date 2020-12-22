@@ -60,10 +60,12 @@ class HighLevelRequests {
         let transactionsInfo = [];
         history.forEach((tx) => {
             transactionsInfo.push({
+                txId: tx.txid,
                 address: tx.address,
-                status: tx.details? tx.details.category : null,
-                fee: tx.fee,
-                abandoned: tx.details? tx.details.abandoned : null
+                amount: tx.amount,
+                category: tx.category,
+                time: tx.time,
+                fee: tx.fee
             })
         })
         return transactionsInfo;
@@ -78,10 +80,12 @@ class HighLevelRequests {
         let txData = await this.requests.getTransaction(walletId, txId);
 
         let txInfo = {
-            address: txData.address,
-            status: txData.details? txData.details.category : null,
+            amount: txData.amount,
+            time: txData.time,
             fee: tx.fee,
-            abandoned: txData.details? tx.details.abandoned : null
+            address: txData.details? txData.details.address: null,
+            status: txData.details? txData.details.category : null,
+            abandoned: txData.details? tx.details.abandoned : null,
         }
         return txInfo;
     }

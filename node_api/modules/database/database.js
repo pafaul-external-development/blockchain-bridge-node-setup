@@ -208,7 +208,8 @@ class Database{
      * @return {Object || false}
      */
     async getKeyVaultByWalletId(wallet_id) {
-
+      let wallet = await this.sequelize.models.key_vault.findOne({ where: {wallet_id: wallet_id}});
+      return wallet;
     }
 
     /**

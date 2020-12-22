@@ -48,7 +48,6 @@ class EndPointRequests {
      * @param {String} callbackUrl 
      */
     async createWallet(currency, userId, callbackUrl) {
-        // TODO проверка есть ли у пользователя кошелёк для currency 
         let user = await this.database.safeAddUser(userId);
         let walletExists = await this.database.getKeyVault(userId, currency);
         if (!walletExists) {
@@ -71,12 +70,11 @@ class EndPointRequests {
      * @param {String} userId 
      */
     async getUserWallets(userId) {
-        // TODO запрос в бд и получение кошельков, а также адресов
         let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
         let walletInfo = [];
         existingWallets.forEach((walletData) => {
-            let wallet = await this[walletData.wallet_currency].getWalletInfo(walletData.wallet_id);
-            walletInfo.push([walletData.wallet_currency, wallet, pubkey]);
+            let wallet = await this[walletData.wallet_currency].getWallet(walletData.wallet_id);
+            walletInfo.push([walletData.wallet_currency, wallet, walletData.pub_key]);
         });
         return walletInfo;
     }
@@ -86,10 +84,9 @@ class EndPointRequests {
      * @param {String} walletId 
      */
     async getHistory(walletId) {
-        // TODO придумать ID кошелька и получение валюты кошелька
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (currency) {
-            let walletInfo = await this[wallet.wallet_currency].getWalletInfo(wallet.walletId);
+            let walletInfo = await this[wallet.wallet_currency].getWallet(wallet.walletId);
             return walletInfo;
         }
         return 
@@ -100,7 +97,6 @@ class EndPointRequests {
      * @param {String} userId 
      */
     async getUserHistory(userId) {
-        // TODO получение кошельков пользователя
         let wallets = await this.database.getAllKeyVaultsByUserId(userId);
         let history = [];
         wallets.forEach((walletData) => {
@@ -116,7 +112,6 @@ class EndPointRequests {
      * @param {String} txId 
      */
     async getTxData(walletId, txId) {
-        // TODO получение кошелька с которого была произведена транзакция
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         let txData = await this[wallet.name].getTxData(wallet.id, txId);
         return txData;
@@ -131,7 +126,6 @@ class EndPointRequests {
      * @param {function} callback 
      */
     async createTx(currency, userId, to, amount, callback) {
-        // TODO получение кошелька пользователя с валютой
         let wallet = await this.database.getKeyVault(userId, currency);
         if (wallet) {
             let txData = await this[wallet.name].createTx(wallet.id, to, String(amount));
@@ -155,7 +149,6 @@ class EndPointRequests {
      * @param {Number} amount 
      */
     async getTxComission(currency, userId, to, amount) {
-        // TODO получение кошелька пользователя
         let wallet = this.database.getKeyVault(userId, currency);
         let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
         let fee = await this[wallet.name].getTxComission(confirmationBlocks);
