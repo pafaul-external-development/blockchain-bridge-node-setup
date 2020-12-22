@@ -2,7 +2,7 @@ const AxiosInstance = require('./request_instance');
 const HighLevelRequests = require('./high_level_requests');
 const getWalletId = require('../utils/utils');
 const Database = require('../database/database');
-const BlockchainConfig = requrie('../config/')
+const BlockchainConfig = require('../config/blockchain_config')
 
 class EndPointRequests {
     /**
