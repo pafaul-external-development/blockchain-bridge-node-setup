@@ -12,11 +12,11 @@ class EndPointRequests {
      * @param {Database} databaseInstance
      */
     constructor(btcvInstance, gleecsInstance, databaseInstance) {
-        this.btcv = {
+        this['BTCV'] = {
             instance: btcvInstance,
             requests: new HighLevelRequests(btcvInstance)
         };
-        this.gleecs = {
+        this['GLEECS'] = {
             instance: gleecsInstance,
             requests: new HighLevelRequests(gleecsInstance)
         };
