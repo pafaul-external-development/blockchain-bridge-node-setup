@@ -168,7 +168,7 @@ class Database{
      */
     async getUserByUid(uid){
       let user = await this.sequelize.models.users.findOne({ where: { uid: uid } });
-      return user;
+      return user.dataValues;
     }
 
     /**
@@ -178,7 +178,7 @@ class Database{
      */
     async getUserById(id){
       let user = await this.sequelize.models.users.findOne({ where: { id: id } });
-      return user;
+      return user.dataValues;
     }
 
     /**
@@ -189,7 +189,7 @@ class Database{
      */
     async getKeyVault(user_id, wallet_currency){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { user_id: user_id, wallet_currency: wallet_currency} });
-      return userKey;
+      return userKey.dataValues;
     }
 
     /**
@@ -199,7 +199,7 @@ class Database{
      */
     async getKeyVaultById(id){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { id: id} });
-      return userKey;
+      return userKey.dataValues;
     }
 
     /**
@@ -209,7 +209,7 @@ class Database{
      */
     async getKeyVaultByWalletId(wallet_id) {
       let wallet = await this.sequelize.models.key_vault.findOne({ where: {wallet_id: wallet_id}});
-      return wallet;
+      return wallet.dataValues;
     }
 
     /**
@@ -220,7 +220,7 @@ class Database{
     async getAllKeyVaultsByUserId(user_id){
       let userKeys = await this.sequelize.models.key_vault.findAll({ where: { user_id: user_id} });
       if (userKeys) {
-        return userKeys;
+        return userKeys.dataValues;
       }
       else {
         return false

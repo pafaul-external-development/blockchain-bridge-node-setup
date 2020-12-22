@@ -71,7 +71,7 @@ class EndPointRequests {
      * @param {String} userId 
      */
     async getUserWallets(userId) {
-        let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
+        let existingWallets = await this.database.getAllKeyVaultsByUserId(userId);
         let walletInfo = [];
         for (const walletData of existingWallets) {
             let wallet = await this[walletData.wallet_currency].requests.getWallet(walletData.wallet_id);
