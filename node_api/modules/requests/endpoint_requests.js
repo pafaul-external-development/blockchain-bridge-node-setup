@@ -57,7 +57,7 @@ class EndPointRequests {
             if (walletData) {
                 let wallet = await this.database.safeAddKeyVault(userId, currency, walletData[1], walletId);
                 if (wallet) {
-                    return await this[currency].getWallet(walletId);
+                    return await this[currency].requests.getWallet(walletId);
                 }
                     // TODO вызов url и запись в БД
             } else {
