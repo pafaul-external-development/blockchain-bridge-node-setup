@@ -114,8 +114,10 @@ class EndPointRequests {
      */
     async getTxData(walletId, txId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
-        let txData = await this[wallet.name].requests.getTxData(wallet.id, txId);
-        return txData;
+        if (wallet) {
+            let txData = await this[wallet.name].requests.getTxData(wallet.id, txId);
+            return txData;
+        }
     }
 
     /**
@@ -151,9 +153,11 @@ class EndPointRequests {
      */
     async getTxComission(currency, userId, to, amount) {
         let wallet = await this.database.getKeyVault(userId, currency);
-        let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
-        let fee = await this[wallet.name].requests.getTxComission(confirmationBlocks);
-        return fee;
+        if (wallet) {
+            let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
+            let fee = await this[wallet.name].requests.getTxComission(confirmationBlocks);
+            return fee;
+        }
     }
 }
 

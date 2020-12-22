@@ -137,7 +137,6 @@ class Database{
      */
     async safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { wallet_currency: wallet_currency, pub_key: pub_key} });
-      console.log(userKey)
       if (userKey) {
         console.log(100)
         if (user_id != userKey.dataValues.user_id ){
@@ -168,7 +167,10 @@ class Database{
      */
     async getUserByUid(uid){
       let user = await this.sequelize.models.users.findOne({ where: { uid: uid } });
-      return user;
+      if (user)
+        return user.dataValues;
+      else
+        return null;
     }
 
     /**
@@ -178,7 +180,10 @@ class Database{
      */
     async getUserById(id){
       let user = await this.sequelize.models.users.findOne({ where: { id: id } });
-      return user;
+      if (user)
+        return user.dataValues;
+      else
+        return null;
     }
 
     /**
@@ -189,7 +194,10 @@ class Database{
      */
     async getKeyVault(user_id, wallet_currency){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { user_id: user_id, wallet_currency: wallet_currency} });
-      return userKey;
+      if (userKey)
+        return userKey.dataValues;
+      else
+        return null;
     }
 
     /**
@@ -199,7 +207,10 @@ class Database{
      */
     async getKeyVaultById(id){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { id: id} });
-      return userKey;
+      if (userKey)
+        return userKey.dataValues;
+      else
+        return null;
     }
 
     /**
@@ -209,7 +220,10 @@ class Database{
      */
     async getKeyVaultByWalletId(wallet_id) {
       let wallet = await this.sequelize.models.key_vault.findOne({ where: {wallet_id: wallet_id}});
-      return wallet;
+      if (wallet)
+        return wallet.dataValues;
+      else
+        return null;
     }
 
     /**
@@ -220,7 +234,7 @@ class Database{
     async getAllKeyVaultsByUserId(user_id){
       let userKeys = await this.sequelize.models.key_vault.findAll({ where: { user_id: user_id} });
       if (userKeys) {
-        return userKeys;
+        return userKeys.dataValues;
       }
       else {
         return false
@@ -236,10 +250,10 @@ class Database{
     async getAllKeyVaultsByUid(uid){
       let user = await this.getUserByUid(uid);
       if (user) {
-        let user_id = user.dataValues.id
-        return this.getAllKeyVaultsByUserId(user_id)
+        let user_id = user.dataValues.id;
+        return this.getAllKeyVaultsByUserId(user_id);
       }
-      return false
+      return false;
     }
 
     /**
