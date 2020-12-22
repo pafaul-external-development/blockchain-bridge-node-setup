@@ -28,8 +28,8 @@ class EndPointRequests {
      * @param {AxiosInstance} instance 
      */
     setBtcvInstance(instance) {
-        this.btcv.instance = instance;
-        this.btcv.requests.setInstance(instance);
+        this.BTCV.instance = instance;
+        this.BTCV.requests.setInstance(instance);
     }
 
     /**
@@ -37,8 +37,8 @@ class EndPointRequests {
      * @param {AxiosInstance} instance 
      */
     setGleecsInstance(instance) {
-        this.gleecs.instance = instance;
-        this.gleecs.requests.setInstance(instance);
+        this.GLEECS.instance = instance;
+        this.GLEECS.requests.setInstance(instance);
     }
 
     /**
@@ -51,10 +51,9 @@ class EndPointRequests {
         let user = await this.database.safeAddUser(userId);
         let walletExists = await this.database.getKeyVault(userId, currency);
         if (!walletExists) {
-            let walletToCreate = (currency == 'BTCV') ? 'btcv' : 'gleecs';
             let walletId = getWalletId(currency, userId);
 
-            let walletData = await this[walletToCreate].createWallet(walletId);
+            let walletData = await this[currency].instance.createWallet(walletId);
             if (walletData) {
                 let wallet = await this.database.safeAddKeyVault(userId, currency, walletData[0], walletId);
                 if (wallet) {}
@@ -73,7 +72,7 @@ class EndPointRequests {
         let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
         let walletInfo = [];
         for (const walletData of existingWallets) {
-            let wallet = await this[walletData.wallet_currency].getWallet(walletData.wallet_id);
+            let wallet = await this[walletData.wallet_currency].instance.getWallet(walletData.wallet_id);
             walletInfo.push([walletData.wallet_currency, wallet, walletData.pub_key]);
         }
         return walletInfo;
@@ -86,7 +85,7 @@ class EndPointRequests {
     async getHistory(walletId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (currency) {
-            let walletInfo = await this[wallet.wallet_currency].getWallet(wallet.walletId);
+            let walletInfo = await this[wallet.wallet_currency].instance.getWallet(wallet.walletId);
             return walletInfo;
         }
         return 
@@ -100,7 +99,7 @@ class EndPointRequests {
         let wallets = await this.database.getAllKeyVaultsByUserId(userId);
         let history = [];
         for (const walletData of wallets) {
-            let walletHistory = await this[walletData.wallet_currency].getHistory(walletData.wallet_id);
+            let walletHistory = await this[walletData.wallet_currency].instance.getHistory(walletData.wallet_id);
             history.push([walletData.wallet_currency, walletHistory]);
         }
         return history;
@@ -113,7 +112,7 @@ class EndPointRequests {
      */
     async getTxData(walletId, txId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
-        let txData = await this[wallet.name].getTxData(wallet.id, txId);
+        let txData = await this[wallet.name].instance.getTxData(wallet.id, txId);
         return txData;
     }
 
@@ -128,7 +127,7 @@ class EndPointRequests {
     async createTx(currency, userId, to, amount, callback) {
         let wallet = await this.database.getKeyVault(userId, currency);
         if (wallet) {
-            let txData = await this[wallet.name].createTx(wallet.id, to, String(amount));
+            let txData = await this[wallet.name].instance.createTx(wallet.id, to, String(amount));
             if (txData) {
                 if (txData.txId) {
                     // был получен txId и данные по транзакции на текущий момент
@@ -151,7 +150,7 @@ class EndPointRequests {
     async getTxComission(currency, userId, to, amount) {
         let wallet = this.database.getKeyVault(userId, currency);
         let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
-        let fee = await this[wallet.name].getTxComission(confirmationBlocks);
+        let fee = await this[wallet.name].instance.getTxComission(confirmationBlocks);
         return fee;
     }
 }
