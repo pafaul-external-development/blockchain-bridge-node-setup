@@ -6,7 +6,9 @@
   "dependencies": {
     "axios": "^0.21.0",
     "crypto-js": "^4.0.0",
-    "https": "^1.0.0"
+    "https": "^1.0.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {},
   "scripts": {

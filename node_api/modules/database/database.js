@@ -41,7 +41,7 @@ class Database{
               type: Sequelize.DataTypes.INTEGER
             },
             user_id: { 
-              type: Sequelize.DataTypes.INTEGER,
+              type: Sequelize.DataTypes.STRING,
               allowNull: false
             },
             wallet_currency: { 
@@ -91,7 +91,7 @@ class Database{
 
     /**
      * Добавляет новую запись в key_vault если нет записи со схожими user_id и wallet_currency иначе отдает ее
-     * @param {Number} user_id 
+     * @param {String} user_id 
      * @param {String} wallet_currency 
      * @param {String} pub_key 
      * @return {Object}
@@ -183,7 +183,7 @@ class Database{
 
     /**
      * Возвращает объект с key_vault по user_id и wallet_currency
-     * @param {Number} user_id 
+     * @param {String} user_id 
      * @param {String} wallet_currency 
      * @return {Object}
      */
@@ -204,7 +204,7 @@ class Database{
 
     /**
      * Возвращает все key_vault пользователя по user_id
-     * @param {Number} user_id // Check
+     * @param {String} user_id // Check
      * @return {Object || false}
      */
     async getAllKeyVaultsByUserId(user_id){
@@ -272,7 +272,7 @@ class Database{
 
     /**
      * Удаляет key_vault по user_id и wallet_currency (НЕ ПРОТЕСТИРОВАНО)
-     * @param {Number} user_id 
+     * @param {String} user_id 
      * @param {String} wallet_currency 
      * @return {Object}
      */
@@ -292,34 +292,35 @@ class Database{
     }
 }
 
-async function main(){
-  let db = new Database();
-  // let test  = await db.safeAddUser("testtest");
+// async function main(){
+//   let db = new Database();
+//   let test  = await db.safeAddUser("testtest");
 
-  let user_id = 2
-  let wallet_currency = "test1"
-  let pub_key = "pub_key1"
-  let wallet_id = "wallet_id1"
-  let id =1
-  let uid = "test2test"
-
-
-  // db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id)
-  // db.safeUpdateUser(2, "test")
-  // test = await db.safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id)
-  // test = await db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id)
-  // test = await db.getAllKeyVaultsByUid(uid)
+//   let user_id = 2
+//   let wallet_currency = "test1"
+//   let pub_key = "pub_key1"
+//   let wallet_id = "wallet_id1"
+//   let id =1
+//   let uid = "test2test"
 
 
-  // console.log("_________ ", test)
-  // let test  = await db.deleteUserById(user_id);
+//   db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id)
+//   db.safeUpdateUser(2, "test")
+//   test = await db.safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id)
+//   test = await db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id)
+//   test = await db.getAllKeyVaultsByUid(uid)
 
-  // await console.log(test);
+
+//   console.log("_________ ", test)
+//   test  = await db.deleteUserById(user_id);
+
+//   await console.log(test);
   
-  db.createDB();
-}
+//   db.createDB();
 
-main();
+//   process.exit();
+// }
+
+// main();
 
 module.exports = Database;
-
