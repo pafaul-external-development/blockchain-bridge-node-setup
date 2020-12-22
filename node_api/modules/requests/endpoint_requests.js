@@ -150,7 +150,7 @@ class EndPointRequests {
      * @param {Number} amount 
      */
     async getTxComission(currency, userId, to, amount) {
-        let wallet = this.database.getKeyVault(userId, currency);
+        let wallet = await this.database.getKeyVault(userId, currency);
         let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
         let fee = await this[wallet.name].requests.getTxComission(confirmationBlocks);
         return fee;

@@ -18,7 +18,6 @@ function createAxiosInstance(config) {
  */
 async function createEndPoint(btcvAxios, gleecsAxios) {
     let db = new Database();
-    await db.createDB();
     let endPoint = new EndPointRequests(btcvAxios, gleecsAxios, db);
     return endPoint;
 }
