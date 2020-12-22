@@ -29,34 +29,20 @@ function setup() {
 
 /**
  * 
- * @param {Array} res 
- * @param {String} yes 
- * @param {String} no 
- * @param {Boolean} exit
- */
-function testSuccess(res, yes, no, exit=false) {
-    if (res[0] && res[1]) {
-        console.log(yes);
-        return true;
-    } else {
-        console.log(no);
-        return false;
-    }
-}
-
-/**
- * 
  * @param {EndPointRequests} endPoint 
  * @param {JSON} testConfig
  */
 async function chainTest(endPoint, currency, testConfig) {
+    let user1 = endPoint.createWallet(currency, testConfig.userIds[0], '');
+    let user2 = endPoint.createWallet(currency, testConfig.userIds[1], '');
+    return JSON.stringify(user1, null, '\t') + '\n' + JSON.stringify(user2, null, '\t');
 }
 
 async function main() {
     let endPoint = setup();
-    let btcvRes = await chainTest(endPoint, config.testBTCV);
-    let gleecsRes = await chainTest(endPoint, config.testGleecs);
-    console.log(JSON.stringify(btcvRes, null, '\t'))
+    // let btcvRes = await chainTest(endPoint, config.testBTCV);
+    let gleecsRes = await chainTest(endPoint, config.gleecs);
+    // console.log(JSON.stringify(btcvRes, null, '\t'))
     console.log(JSON.stringify(gleecsRes, null, '\t'))
 }
 

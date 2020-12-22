@@ -12,7 +12,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "cd modules/tests && node test_post_requests.js"
+    "testPostRequests": "cd modules/tests && node test_post_requests.js",
+    "testUserCreation": "cd modules/tests && node user_creation_test.js"
+
   },
   "repository": {
     "type": "git",
