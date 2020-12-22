@@ -11,7 +11,7 @@ const config = {
         user: "user",
         pw: "pw",
         mainWallet: "testWallet",
-        userIds: ["testUser11", "testUser21"]
+        userIds: ["testUser111", "testUser211"]
     }
 };
 
