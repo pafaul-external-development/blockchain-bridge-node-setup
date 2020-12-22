@@ -234,7 +234,7 @@ class Database{
     async getAllKeyVaultsByUserId(user_id){
       let userKeys = await this.sequelize.models.key_vault.findAll({ where: { user_id: user_id} });
       if (userKeys) {
-        return userKeys.dataValues;
+        return userKeys;
       }
       else {
         return false
