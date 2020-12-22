@@ -21,6 +21,7 @@ class EndPointRequests {
             requests: new HighLevelRequests(gleecsInstance)
         };
         this.database = databaseInstance;
+        this.that = this;
     }
 
     /**
