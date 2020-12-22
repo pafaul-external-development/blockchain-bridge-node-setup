@@ -1,5 +1,6 @@
 const EndPointRequests = require('../requests/endpoint_requests');
 const AxiosInstance = require('../requests/request_instance');
+const Database = require('../database/database');
 const config = require('./test_config');
 /**
  * 
@@ -16,7 +17,8 @@ function createAxiosInstance(config) {
  * @param {AxiosInstance} gleecsAxios
  */
 function createEndPoint(btcvAxios, gleecsAxios) {
-    let endPoint = new EndPointRequests(btcvAxios, gleecsAxios);
+    let db = new Database();
+    let endPoint = new EndPointRequests(btcvAxios, gleecsAxios, db);
     return endPoint;
 }
 
