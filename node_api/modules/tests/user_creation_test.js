@@ -16,17 +16,17 @@ function createAxiosInstance(config) {
  * @param {AxiosInstance} btcvAxios
  * @param {AxiosInstance} gleecsAxios
  */
-function createEndPoint(btcvAxios, gleecsAxios) {
+async function createEndPoint(btcvAxios, gleecsAxios) {
     let db = new Database();
-    db.createDB();
+    await db.createDB();
     let endPoint = new EndPointRequests(btcvAxios, gleecsAxios, db);
     return endPoint;
 }
 
-function setup() {
+async function setup() {
     let btcv = createAxiosInstance(config.btcv);
     let gleecs = createAxiosInstance(config.gleecs);
-    let endPoint = createEndPoint(btcv, gleecs);
+    let endPoint = await createEndPoint(btcv, gleecs);
     return endPoint;
 }
 
@@ -42,7 +42,7 @@ async function chainTest(endPoint, currency, testConfig) {
 }
 
 async function main() {
-    let endPoint = setup();
+    let endPoint = await setup();
     // let btcvRes = await chainTest(endPoint, config.testBTCV);
     let gleecsRes = await chainTest(endPoint, 'GLEECS', config.gleecs);
     // console.log(JSON.stringify(btcvRes, null, '\t'))
