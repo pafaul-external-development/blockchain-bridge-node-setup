@@ -56,7 +56,7 @@ class HighLevelRequests {
      * @param {String} walletId 
      */
     async getHistory(walletId) {
-        let history = await this.requests.listTransactions(walletId, 9999);
+        let history = await this.requests.listTransactions(walletId);
         let transactionsInfo = [];
         history.forEach((tx) => {
             transactionsInfo.push({

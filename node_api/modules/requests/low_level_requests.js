@@ -105,10 +105,10 @@ class LowLevelRequests {
      * @param {String} walletId 
      * @param {Number} count 
      */
-    async listTransactions(walletId, count) {
+    async listTransactions(walletId) {
         try {
             let path = '/wallet/' + walletId;
-            let response = await this.instance.post_request(path, 'listtransactions', [String(count)]);
+            let response = await this.instance.post_request(path, 'listtransactions', []);
             if (!response.error)
                 return response.data.result;
             else

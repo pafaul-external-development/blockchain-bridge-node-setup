@@ -88,8 +88,8 @@ class EndPointRequests {
     async getHistory(walletId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (currency) {
-            let walletInfo = await this[wallet.wallet_currency].requests.getWallet(wallet.walletId);
-            return walletInfo;
+            let walletHistory = await this[wallet.wallet_currency].requests.getHistory(wallet.wallet_id);
+            return [wallet.wallet_currency, walletInfo];
         }
         return 
     }
