@@ -132,7 +132,7 @@ class EndPointRequests {
     async createTx(currency, userId, to, amount, callback) {
         let wallet = await this.database.getKeyVault(userId, currency);
         if (wallet) {
-            let txData = await this[wallet.wallet_currency].requests.createTx(wallet.id, to, String(amount));
+            let txData = await this[wallet.wallet_currency].requests.createTx(wallet.wallet_id, to, String(amount));
             if (txData) {
                 if (txData.txId) {
                     // был получен txId и данные по транзакции на текущий момент
