@@ -1,3 +1,10 @@
 node_api/node_modules/
+<<<<<<< HEAD
 node_api/package-lock.json
 node_api/modules/database/bc_bridge.sqlite
+=======
+*/bc_bridge.sqlite
+node_api/package-lock.json
+node_api/package.json
+node_modules/
+>>>>>>> db

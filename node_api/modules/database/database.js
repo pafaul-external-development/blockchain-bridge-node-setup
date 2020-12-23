@@ -114,6 +114,24 @@ class Database{
     }
 
     /**
+     * Добавляет новую запись в key_vault если нет записи со схожими user_id (по uid) и wallet_currency иначе отдает ее
+     * @param {String} uid 
+     * @param {String} wallet_currency 
+     * @param {String} pub_key 
+     * @param {String} wallet_id 
+     */
+    async safeAddKeyVaultByUid(uid, wallet_currency, pub_key, wallet_id){ 
+      let user = await this.sequelize.models.users.findOne({ where: {uid: uid} });
+      if (user == null) {
+        return false;
+      }
+      else {
+        let user_id = user.dataValues.id;
+        return await this.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id);
+      }
+    }
+
+    /**
      * Обновляет записи в таблице users если пользователь с таким id существует и нет других записей с таким uid
      * @param {Number} id 
      * @param {String} uid 
@@ -138,7 +156,7 @@ class Database{
     async safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { wallet_currency: wallet_currency, pub_key: pub_key} });
       if (userKey) {
-        console.log(100)
+        // console.log(100)
         if (user_id != userKey.dataValues.user_id ){
           return false
         }
@@ -157,7 +175,24 @@ class Database{
           let updatedUserKey = await this.sequelize.models.key_vault.update({ pub_key: pub_key, wallet_id: wallet_id }, { where: {user_id: user_id, wallet_currency: wallet_currency} });
           return Boolean(updatedUserKey[0]);
       }
+    }
 
+    /**
+     * Обновляет записи в таблице key_vault если пользователь с таким uid существует и нет других записей с таким pub_key по валюте wallet_currency
+     * @param {String} uid 
+     * @param {String} wallet_currency 
+     * @param {String} pub_key 
+     * @param {String} wallet_id 
+     */
+    async safeUpdateKeyVaultByUid(uid, wallet_currency, pub_key, wallet_id){
+      let user = await this.sequelize.models.users.findOne({ where: {uid: uid} });
+      if (user == null) {
+        return false;
+      }
+      else {
+        let user_id = user.dataValues.id;
+        return await this.safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id);
+      }
     }
  
     /**
@@ -190,27 +225,48 @@ class Database{
      * Возвращает объект с key_vault по user_id и wallet_currency
      * @param {String} user_id 
      * @param {String} wallet_currency 
-     * @return {Object}
+     * @return {Object || false}
      */
     async getKeyVault(user_id, wallet_currency){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { user_id: user_id, wallet_currency: wallet_currency} });
-      if (userKey)
-        return userKey.dataValues;
-      else
-        return null;
+      if (userKey == null) {
+        return false;
+      }
+      else {
+        return userKey;
+      }
     }
 
     /**
      * Возвращает объект с key_vault по id записи
      * @param {Number} id 
-     * @return {Object}
+     * @return {Object || false}
      */
     async getKeyVaultById(id){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { id: id} });
-      if (userKey)
-        return userKey.dataValues;
-      else
-        return null;
+      if (userKey == null) {
+        return false;
+      }
+      else {
+        return userKey;
+      }
+    }
+
+    /**
+     * Возвращает объект с key_vault по uid пользователя
+     * @param {String} uid 
+     * @param {String} wallet_currency 
+     * @return {Object || false}
+     */
+    async getKeyVaultByUid(uid, wallet_currency){
+      let user = await this.sequelize.models.users.findOne({ where: {uid: uid} });
+      if (user == null) {
+        return false;
+      }
+      else {
+        let user_id = user.dataValues.id;
+        return await this.getKeyVault(user_id, wallet_currency);
+      }
     }
 
     /**
@@ -225,7 +281,7 @@ class Database{
       else
         return null;
     }
-
+    
     /**
      * Возвращает все key_vault пользователя по user_id
      * @param {String} user_id // Check
@@ -322,25 +378,36 @@ class Database{
 
 // async function main(){
 //   let db = new Database();
-//   let test  = await db.safeAddUser("testtest");
+  // let test  = await db.safeAddUser("test");
+  
+  // console.log(test);
+  // console.log("asd");
 
-//   let user_id = 2
-//   let wallet_currency = "test1"
-//   let pub_key = "pub_key1"
-//   let wallet_id = "wallet_id1"
-//   let id =1
-//   let uid = "test2test"
+  // let user_id = 1;
+  // let wallet_currency = "test1";
+  // let pub_key = "pub_key1";
+  // let wallet_id = "wallet_id1";
+  // let id =1;
+  // let uid = "test";
+
+  // let test = await db.getKeyVault(2, wallet_currency);
+  // let test = await db.getKeyVaultByUid("test", wallet_currency);
 
 
-//   db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id)
-//   db.safeUpdateUser(2, "test")
-//   test = await db.safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id)
-//   test = await db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id)
-//   test = await db.getAllKeyVaultsByUid(uid)
+  // db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id);
+  // db.safeUpdateUser(2, "test");
+  // test = await db.safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id);
+  // test = await db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id);
+  // test = await db.getAllKeyVaultsByUid(uid);
+
+  // let test  = await db.safeUpdateKeyVaultByUid(uid, wallet_currency, pub_key, wallet_id);
+
+  // let test  = await db.getAllKeyVaultsByUid(uid);
+  // console.log(test);
 
 
-//   console.log("_________ ", test)
-//   test  = await db.deleteUserById(user_id);
+  // console.log("_________ ", test);
+  // let test  = await db.deleteUserById(user_id);
 
 //   await console.log(test);
   
