@@ -58,9 +58,10 @@ class EndPointRequests {
             if (walletData) {
                 let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
                 if (wallet) {
+                    // TODO вызов url и запись в БД
+                    // await this[currency].requests.lowLevelRequests.importAddress(config[currency].watchWallet, walletData[1], '', false);
                     return await this[currency].requests.getWallet(walletId);
                 }
-                    // TODO вызов url и запись в БД
             } else {
                 throw Error('Cannot create wallet');
             }
@@ -135,7 +136,6 @@ class EndPointRequests {
             let txData = await this[wallet.wallet_currency].requests.createTx(wallet.wallet_id, to, String(amount));
             if (txData) {
                 if (txData.txId) {
-                    // был получен txId и данные по транзакции на текущий момент
                     // TODO вызов callback
                     return txData;
                 }

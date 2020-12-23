@@ -8,7 +8,7 @@ class HighLevelRequests {
      */
     constructor(instance=null) {
         this.instance = instance;
-        this.requests = new Requests(instance);
+        this.lowLevelRequests = new Requests(instance);
     }
 
     /**
@@ -17,7 +17,7 @@ class HighLevelRequests {
      */
     setInstance(instance) {
         this.instance = instance;
-        this.requests.setInstance(instance);
+        this.lowLevelRequests.setInstance(instance);
     }
 
     /**
@@ -25,9 +25,9 @@ class HighLevelRequests {
      * @param {String} walletId 
      */
     async createWallet(walletId) {
-        let wallet = await this.requests.createWallet(walletId);
+        let wallet = await this.lowLevelRequests.createWallet(walletId);
         if (wallet) {
-            let pubkey = await this.requests.getNewAddress(walletId);
+            let pubkey = await this.lowLevelRequests.getNewAddress(walletId);
             if (pubkey) 
                 return [wallet, pubkey];
         }
@@ -39,7 +39,7 @@ class HighLevelRequests {
      * @param {String} walletId 
      */
     async getWallet(walletId) {
-        let walletInfo = await this.requests.getWalletInfo(walletId);
+        let walletInfo = await this.lowLevelRequests.getWalletInfo(walletId);
         if (walletInfo) {
             let info = {
                 walletData: '',
@@ -56,7 +56,7 @@ class HighLevelRequests {
      * @param {String} walletId 
      */
     async getHistory(walletId) {
-        let history = await this.requests.listTransactions(walletId);
+        let history = await this.lowLevelRequests.listTransactions(walletId);
         let transactionsInfo = [];
         history.forEach((tx) => {
             transactionsInfo.push({
@@ -77,7 +77,7 @@ class HighLevelRequests {
      * @param {String} txId 
      */
     async getTxData(walletId, txId) {
-        let txData = await this.requests.getTransaction(walletId, txId);
+        let txData = await this.lowLevelRequests.getTransaction(walletId, txId);
 
         let txInfo = {
             amount: txData.amount,
@@ -97,7 +97,7 @@ class HighLevelRequests {
      * @param {String} amount 
      */
     async createTx(walletId, to, amount) {
-        let txId = await this.requests.sendToAddress(walletId, to, amount);
+        let txId = await this.lowLevelRequests.sendToAddress(walletId, to, amount);
         console.log(txId);
         if (txId) {
             let txData = await this.getTxData(walletId, txId);
@@ -117,7 +117,7 @@ class HighLevelRequests {
      * @param {Number} confirmation_blocks 
      */
     async getTxComission(walletId, confirmation_blocks) {
-        let fee = await this.requests.estimateSmartFee(walletId, confirmation_blocks);
+        let fee = await this.lowLevelRequests.estimateSmartFee(walletId, confirmation_blocks);
         return fee;
     }
 }
