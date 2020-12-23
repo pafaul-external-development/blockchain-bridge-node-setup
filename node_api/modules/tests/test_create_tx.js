@@ -35,7 +35,7 @@ async function setup() {
  * @param {JSON} testConfig
  */
 async function chainTest(endPoint, currency, testConfig) {
-    let user1 = await endPoint.createTx(currency, testConfig.userIds[0], 'GaYfn2tHb1RE6VYGd4dpjWko97gMFPTg1A', '0.005');
+    let user1 = await endPoint.createTx(currency, testConfig.userIds[0], 'GaYfn2tHb1RE6VYGd4dpjWko97gMFPTg1A', '0.0005');
     //let user2 = await endPoint.getUserHistory(testConfig.userIds[1]);
     return JSON.stringify(user1, null, '\t'); //+ '\n' + JSON.stringify(user2, null, '\t');
 }

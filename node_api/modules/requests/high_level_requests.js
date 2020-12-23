@@ -98,8 +98,10 @@ class HighLevelRequests {
      */
     async createTx(walletId, to, amount) {
         let txId = await this.requests.sendToAddress(walletId, to, amount);
+        console.log(txId);
         if (txId) {
             let txData = await this.getTxData(walletId, txId);
+            console.log(txData);
             if (txData) {
                 txData.txId = txId;
                 return txData;
