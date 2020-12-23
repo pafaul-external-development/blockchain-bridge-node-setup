@@ -116,7 +116,7 @@ class EndPointRequests {
     async getTxData(walletId, txId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (wallet) {
-            let txData = await this[wallet.name].requests.getTxData(wallet.id, txId);
+            let txData = await this[wallet.wallet_currency].requests.getTxData(wallet.id, txId);
             return txData;
         }
     }
@@ -132,7 +132,7 @@ class EndPointRequests {
     async createTx(currency, userId, to, amount, callback) {
         let wallet = await this.database.getKeyVault(userId, currency);
         if (wallet) {
-            let txData = await this[wallet.name].requests.createTx(wallet.id, to, String(amount));
+            let txData = await this[wallet.wallet_currency].requests.createTx(wallet.id, to, String(amount));
             if (txData) {
                 if (txData.txId) {
                     // был получен txId и данные по транзакции на текущий момент
@@ -156,7 +156,7 @@ class EndPointRequests {
         let wallet = await this.database.getKeyVault(userId, currency);
         if (wallet) {
             let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
-            let fee = await this[wallet.name].requests.getTxComission(confirmationBlocks);
+            let fee = await this[wallet.wallet_currency].requests.getTxComission(confirmationBlocks);
             return fee;
         }
     }

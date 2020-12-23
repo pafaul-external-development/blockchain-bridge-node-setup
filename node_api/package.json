@@ -15,7 +15,8 @@
     "testPostRequests": "cd modules/tests && node test_post_requests.js",
     "testUserCreation": "cd modules/tests && node user_creation_test.js",
     "testGetWallets": "cd modules/tests && node test_get_wallets_info.js",
-    "testGetHistory": "cd modules/tests && node test_get_user_history.js"
+    "testGetHistory": "cd modules/tests && node test_get_user_history.js",
+    "testCreateTx": "cd modules/tests && node test_create_tx.js"
   },
   "repository": {
     "type": "git",
