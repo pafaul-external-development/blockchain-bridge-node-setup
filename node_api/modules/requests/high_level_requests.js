@@ -85,7 +85,7 @@ class HighLevelRequests {
             fee: txData.fee,
             address: txData.details? txData.details.address: null,
             status: txData.details? txData.details.category : null,
-            abandoned: txData.details? tx.details.abandoned : null,
+            abandoned: txData.details? txData.details.abandoned : null,
         }
         return txInfo;
     }
