@@ -310,7 +310,7 @@ class Database{
     async getAllKeyVaultsByUid(uid){
       let user = await this.getUserByUid(uid);
       if (user !== null) {
-        let user_id = user.dataValues.id;
+        let user_id = user.id;
         return this.getAllKeyVaultsByUserId(user_id);
       }
       return false;
