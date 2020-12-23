@@ -185,7 +185,7 @@ class LowLevelRequests {
             let path = '/wallet/' + walletId;
             let response = await this.instance.post_request(path, 'sendtoaddress', [address, amount]);
             if (!response.error)
-                return response.data.result.txId;
+                return response.data.result;
             else
                 return null;
         } catch (err) {
