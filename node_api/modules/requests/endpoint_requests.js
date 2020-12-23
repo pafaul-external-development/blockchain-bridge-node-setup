@@ -50,13 +50,13 @@ class EndPointRequests {
      */
     async createWallet(currency, userId, callbackUrl) {
         let user = await this.database.safeAddUser(userId);
-        let walletExists = await this.database.getKeyVault(userId, currency);
+        let walletExists = await this.database.getKeyVaultByUid(userId, currency);
         if (!walletExists) {
             let walletId = getWalletId(currency, userId);
 
             let walletData = await this[currency].requests.createWallet(walletId);
             if (walletData) {
-                let wallet = await this.database.safeAddKeyVault(userId, currency, walletData[1], walletId);
+                let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
                 if (wallet) {
                     return await this[currency].requests.getWallet(walletId);
                 }
@@ -72,7 +72,7 @@ class EndPointRequests {
      * @param {String} userId 
      */
     async getUserWallets(userId) {
-        let existingWallets = await this.database.getAllKeyVaultsByUserId(userId);
+        let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
         let walletInfo = [];
         for (const walletData of existingWallets) {
             let wallet = await this[walletData.wallet_currency].requests.getWallet(walletData.wallet_id);
@@ -130,7 +130,7 @@ class EndPointRequests {
      * @param {function} callback 
      */
     async createTx(currency, userId, to, amount, callback) {
-        let wallet = await this.database.getKeyVault(userId, currency);
+        let wallet = await this.database.getKeyVaultByUid(userId, currency);
         if (wallet) {
             let txData = await this[wallet.wallet_currency].requests.createTx(wallet.wallet_id, to, String(amount));
             if (txData) {
@@ -153,7 +153,7 @@ class EndPointRequests {
      * @param {Number} amount 
      */
     async getTxComission(currency, userId, to, amount) {
-        let wallet = await this.database.getKeyVault(userId, currency);
+        let wallet = await this.database.getKeyVaultByUid(userId, currency);
         if (wallet) {
             let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
             let fee = await this[wallet.wallet_currency].requests.getTxComission(confirmationBlocks);
