@@ -82,7 +82,7 @@ class HighLevelRequests {
         let txInfo = {
             amount: txData.amount,
             time: txData.time,
-            fee: tx.fee,
+            fee: txData.fee,
             address: txData.details? txData.details.address: null,
             status: txData.details? txData.details.category : null,
             abandoned: txData.details? tx.details.abandoned : null,
