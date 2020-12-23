@@ -41,7 +41,7 @@ class Database{
               type: Sequelize.DataTypes.INTEGER
             },
             user_id: { 
-              type: Sequelize.DataTypes.STRING,
+              type: Sequelize.DataTypes.INTEGER,
               allowNull: false
             },
             wallet_currency: { 
@@ -264,7 +264,7 @@ class Database{
         return false;
       }
       else {
-        let user_id = user.dataValues.id;
+        let user_id = user.id;
         return await this.getKeyVault(user_id, wallet_currency);
       }
     }
@@ -309,7 +309,7 @@ class Database{
      */
     async getAllKeyVaultsByUid(uid){
       let user = await this.getUserByUid(uid);
-      if (user) {
+      if (user !== null) {
         let user_id = user.dataValues.id;
         return this.getAllKeyVaultsByUserId(user_id);
       }
@@ -325,7 +325,7 @@ class Database{
 
       let user = await this.getUserByUid(uid);
       if (user) {
-        let user_id = user.dataValues.id
+        let user_id = user.id
         let res2 = await this.sequelize.models.key_vault.destroy({ where: { user_id: user_id} });
         let res = await this.sequelize.models.users.destroy({ where: { uid: uid } });
 
