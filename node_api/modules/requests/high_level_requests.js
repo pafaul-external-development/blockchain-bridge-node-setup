@@ -26,12 +26,8 @@ class HighLevelRequests {
      */
     async createWallet(walletId) {
         let wallet = await this.lowLevelRequests.createWallet(walletId);
-        if (wallet) {
-            let pubkey = await this.lowLevelRequests.getNewAddress(walletId);
-            if (pubkey) 
-                return [wallet, pubkey];
-        }
-        return null;
+        let pubkey = await this.lowLevelRequests.getNewAddress(walletId);
+        return [wallet, pubkey];
     }
 
     /**
@@ -40,15 +36,12 @@ class HighLevelRequests {
      */
     async getWallet(walletId) {
         let walletInfo = await this.lowLevelRequests.getWalletInfo(walletId);
-        if (walletInfo) {
-            let info = {
-                walletData: '',
-                balance: walletInfo.balance,
-                holdBalance: walletInfo.unconfirmed_balance
-            }
-            return info;
+        let info = {
+            walletData: '',
+            balance: walletInfo.balance,
+            holdBalance: walletInfo.unconfirmed_balance
         }
-        return null;
+        return info;
     }
 
     /**
@@ -98,17 +91,12 @@ class HighLevelRequests {
      */
     async createTx(walletId, to, amount) {
         let txId = await this.lowLevelRequests.sendToAddress(walletId, to, amount);
-        console.log(txId);
-        if (txId) {
-            let txData = await this.getTxData(walletId, txId);
-            console.log(txData);
-            if (txData) {
-                txData.txId = txId;
-                return txData;
-            }
-            return txId;
+        let txData = await this.getTxData(walletId, txId);
+        if (txData) {
+            txData.txId = txId;
+            return txData;
         }
-        return null;
+        return txId;
     }
 
     /**

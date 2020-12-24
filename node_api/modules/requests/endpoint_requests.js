@@ -55,15 +55,10 @@ class EndPointRequests {
             let walletId = getWalletId(currency, userId);
 
             let walletData = await this[currency].requests.createWallet(walletId);
-            if (walletData) {
-                let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
-                if (wallet) {
-                    // TODO вызов url и запись в БД
-                    // await this[currency].requests.lowLevelRequests.importAddress(config[currency].watchWallet, walletData[1], '', false);
-                    return await this[currency].requests.getWallet(walletId);
-                }
-            } else {
-                throw Error('Cannot create wallet');
+            let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
+            if (wallet) {
+                // TODO вызов url и запись в БД
+                return await this[currency].requests.getWallet(walletId);
             }
         }
     }
@@ -74,10 +69,8 @@ class EndPointRequests {
      */
     async getWallet(walletId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
-        if (wallet) {
-            let walletData = await this[wallet.wallet_currency].requests.getWallet(walletData.walletId);
-            return [wallet.wallet_currency, walletData, wallet.pub_key]
-        }
+        let walletData = await this[wallet.wallet_currency].requests.getWallet(walletId);
+        return [wallet.wallet_currency, walletData, wallet.pub_key]
     }
 
     /**
@@ -100,11 +93,12 @@ class EndPointRequests {
      */
     async getHistory(walletId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
-        if (currency) {
+        if (wallet.wallet_currency) {
             let walletHistory = await this[wallet.wallet_currency].requests.getHistory(wallet.wallet_id);
             return [wallet.wallet_currency, walletHistory];
+        } else {
+            throw new Error ('Cannot get wallet history');
         }
-        return
     }
 
     /**
@@ -131,6 +125,8 @@ class EndPointRequests {
         if (wallet) {
             let txData = await this[wallet.wallet_currency].requests.getTxData(wallet.id, txId);
             return txData;
+        } else {
+            throw new Error('Cannot get tx data');
         }
     }
 
@@ -154,6 +150,8 @@ class EndPointRequests {
                 return txId;
             }
             return null;
+        } else {
+            throw new Error('Cannot create tx');
         }
     }
 
@@ -170,6 +168,8 @@ class EndPointRequests {
             let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
             let fee = await this[wallet.wallet_currency].requests.getTxComission(confirmationBlocks);
             return fee;
+        } else {
+            throw new Error('Cannot calculate tx comission');
         }
     }
 }

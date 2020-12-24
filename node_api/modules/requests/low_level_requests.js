@@ -35,10 +35,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot create new wallet');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot create new wallet');
         }
     }
 
@@ -53,10 +53,10 @@ class LowLevelRequests {
             if (!response.error) 
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot get new address for wallet');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot get new address for wallet');
         }
     }
 
@@ -112,10 +112,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot get transaction history');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot get transaction history');
         }
     }
 
@@ -130,10 +130,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot get current balance');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot get current balance');
         }
     }
 
@@ -148,10 +148,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot get wallet info');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot get wallet info');
         }
     }
 
@@ -167,10 +167,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot get transaction info');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot get transaction info');
         }
     }
 
@@ -187,10 +187,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result;
             else
-                return null;
+                throw new Error('Cannot create new transaction');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot create new transaction');
         }
     }
 
@@ -206,10 +206,10 @@ class LowLevelRequests {
             if (!response.error)
                 return response.data.result.feerate;
             else
-                return null;
+                throw new Error('Cannot estimate transaction fee');
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error('Cannot estimate transaction fee');
         }
     }
 }
