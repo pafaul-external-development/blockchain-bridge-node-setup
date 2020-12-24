@@ -88,8 +88,8 @@ class EndPointRequests {
         let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
         let walletInfo = [];
         for (const walletData of existingWallets) {
-            let wallet = await this[walletData.wallet_currency].requests.getWallet(walletData.wallet_id);
-            walletInfo.push([walletData.wallet_currency, wallet, walletData.pub_key]);
+            let wallet = await this.getWallet(walletData.wallet_id);
+            walletInfo.push(wallet);
         }
         return walletInfo;
     }
