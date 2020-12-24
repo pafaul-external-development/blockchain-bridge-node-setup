@@ -37,7 +37,6 @@ class HighLevelRequests {
     async getWallet(walletId) {
         let walletInfo = await this.lowLevelRequests.getWalletInfo(walletId);
         let info = {
-            walletData: '',
             balance: walletInfo.balance,
             holdBalance: walletInfo.unconfirmed_balance
         }

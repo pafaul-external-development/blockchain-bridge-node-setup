@@ -60,6 +60,8 @@ class EndPointRequests {
                 // TODO вызов url и запись в БД
                 return await this[currency].requests.getWallet(walletId);
             }
+        } else {
+            throw new Error('User already exists!');
         }
     }
 
