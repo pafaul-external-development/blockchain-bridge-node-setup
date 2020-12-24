@@ -73,7 +73,7 @@ class EndPointRequests {
      * @param {String} walletId 
      */
     async getWallet(walletId) {
-        let wallet = await this.database.getKeyVaultByWalletId(walleId);
+        let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (wallet) {
             let walletData = await this[wallet.wallet_currency].requests.getWallet(walletData.walletId);
             return [wallet.wallet_currency, walletData, wallet.pub_key]
