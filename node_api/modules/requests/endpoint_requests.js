@@ -90,9 +90,9 @@ class EndPointRequests {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (currency) {
             let walletHistory = await this[wallet.wallet_currency].requests.getHistory(wallet.wallet_id);
-            return [wallet.wallet_currency, walletInfo];
+            return [wallet.wallet_currency, walletHistory];
         }
-        return 
+        return
     }
 
     /**
@@ -104,7 +104,7 @@ class EndPointRequests {
         let history = [];
         for (const walletData of wallets) {
             let walletHistory = await this[walletData.wallet_currency].requests.getHistory(walletData.wallet_id);
-            history.push([walletData.wallet_currency, walletHistory]);
+            history.push(walletHistory);
         }
         return history;
     }
