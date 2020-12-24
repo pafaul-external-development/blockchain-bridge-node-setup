@@ -16,7 +16,7 @@ class EndPointRequests {
             instance: btcvInstance,
             requests: new HighLevelRequests(btcvInstance)
         };
-        this['GLEECS'] = {
+        this['GLEEC'] = {
             instance: gleecsInstance,
             requests: new HighLevelRequests(gleecsInstance)
         };
