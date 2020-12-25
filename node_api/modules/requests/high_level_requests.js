@@ -6,7 +6,7 @@ class HighLevelRequests {
      * 
      * @param {AxiosInstance} instance 
      */
-    constructor(instance=null) {
+    constructor(instance = null) {
         this.instance = instance;
         this.lowLevelRequests = new Requests(instance);
     }
@@ -75,9 +75,9 @@ class HighLevelRequests {
             amount: txData.amount,
             time: txData.time,
             fee: txData.fee,
-            address: txData.details? txData.details.address: null,
-            status: txData.details? txData.details.category : null,
-            abandoned: txData.details? txData.details.abandoned : null,
+            address: txData.details ? txData.details.address : null,
+            status: txData.details ? txData.details.category : null,
+            abandoned: txData.details ? txData.details.abandoned : null,
         }
         return txInfo;
     }
