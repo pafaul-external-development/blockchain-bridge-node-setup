@@ -83,7 +83,7 @@ get_pass_options() {
 
 run_nodes() {
     CD=${DIRROOT}/conf
-    ansible-playbook -i ${DIRROOT}/hosts2 ${DIRROOT}/run_nodes.yaml \
+    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/ansible/run_nodes.yaml \
         --extra-vars \
         "btcv_conf_file_local=${CD}/btcv.conf btcv_conf_file_dest=/opt/btcv/btcv.conf gleecs_conf_file_local=${CD}/gleecs.conf gleecs_conf_file_dest=/opt/gleecs/gleecs.conf script_dir=${DIRROOT}/scripts" \
         ${ADDITIONAL_OPTIONS}

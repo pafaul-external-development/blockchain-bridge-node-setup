@@ -106,7 +106,7 @@ get_pass_options() {
 }
 
 run_btcv() {
-    ansible-playbook -i ${DIRROOT}/hosts2 ${DIRROOT}/setup_btcv_node.yaml \
+    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/ansible/setup_btcv_node.yaml \
         --extra-vars \
         "script_dir=${DIRROOT}/scripts btcv_link=${BTCV_LINK} btcv_dir=${BTCV_DIR}" \
         ${ADDITIONAL_OPTIONS}
@@ -115,7 +115,7 @@ run_btcv() {
 }
 
 run_gleecs() {
-    ansible-playbook -i ${DIRROOT}/hosts2 ${DIRROOT}/setup_gleecs_node.yaml \
+    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/ansible/setup_gleecs_node.yaml \
         --extra-vars \
         "script_dir=${DIRROOT}/scripts gleecs_link=${GLEECS_LINK} gleecs_dir=${GLEECS_DIR}" \
         ${ADDITIONAL_OPTIONS}
@@ -124,7 +124,7 @@ run_gleecs() {
 }
 
 run_host() {
-    ansible-playbook -i ${DIRROOT}/hosts2 ${DIRROOT}/setup_host.yaml \
+    ansible-playbook -i ${DIRROOT}/hosts ${DIRROOT}/ansible/setup_host.yaml \
         ${ADDITIONAL_OPTIONS}
     echo_and_exit $? "Host configuration failed"
     echo "Host configuration successfull"

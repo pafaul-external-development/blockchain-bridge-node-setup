@@ -1,0 +1,14 @@
+---
+- name: Backup wallets
+  hosts: btcv
+  become: yes
+  tasks:
+  - name: Backup BTCV wallets
+    script: "{{ script_dir }}/backup_wallets.sh {{ btcv_wallet_dir }}"
+
+- name: Backup wallets
+  hosts: gleecs
+  become: yes
+  tasks:
+  - name: Backup Gleecs wallets
+    script: "{{ script_dir }}/backup_wallets.sh {{ gleecs_wallet_dir }}"
