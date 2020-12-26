@@ -91,7 +91,7 @@ class Database{
 
     /**
      * Добавляет новую запись в key_vault если нет записи со схожими user_id и wallet_currency иначе отдает ее
-     * @param {Number} user_id 
+     * @param {String} user_id 
      * @param {String} wallet_currency 
      * @param {String} pub_key 
      * @return {Object}
@@ -155,7 +155,6 @@ class Database{
      */
     async safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id){
       let userKey = await this.sequelize.models.key_vault.findOne({ where: { wallet_currency: wallet_currency, pub_key: pub_key} });
-      // console.log(userKey)
       if (userKey) {
         // console.log(100)
         if (user_id != userKey.dataValues.user_id ){
@@ -203,7 +202,10 @@ class Database{
      */
     async getUserByUid(uid){
       let user = await this.sequelize.models.users.findOne({ where: { uid: uid } });
-      return user;
+      if (user)
+        return user.dataValues;
+      else
+        return null;
     }
 
     /**
@@ -213,12 +215,15 @@ class Database{
      */
     async getUserById(id){
       let user = await this.sequelize.models.users.findOne({ where: { id: id } });
-      return user;
+      if (user)
+        return user.dataValues;
+      else
+        return null;
     }
 
     /**
      * Возвращает объект с key_vault по user_id и wallet_currency
-     * @param {Number} user_id 
+     * @param {String} user_id 
      * @param {String} wallet_currency 
      * @return {Object || false}
      */
@@ -259,20 +264,37 @@ class Database{
         return false;
       }
       else {
-        let user_id = user.dataValues.id;
+        let user_id = user.id;
         return await this.getKeyVault(user_id, wallet_currency);
       }
     }
 
     /**
+     * Получение кошелька по wallet_id
+     * @param {String} wallet_id 
+     * @return {Object || false}
+     */
+    async getKeyVaultByWalletId(wallet_id) {
+      let wallet = await this.sequelize.models.key_vault.findOne({ where: {wallet_id: wallet_id}});
+      if (wallet)
+        return wallet.dataValues;
+      else
+        return null;
+    }
+    
+    /**
      * Возвращает все key_vault пользователя по user_id
-     * @param {Number} user_id // Check
+     * @param {String} user_id // Check
      * @return {Object || false}
      */
     async getAllKeyVaultsByUserId(user_id){
       let userKeys = await this.sequelize.models.key_vault.findAll({ where: { user_id: user_id} });
-      if (userKeys != []) {
-        return userKeys;
+      if (userKeys) {
+        let realKeys = [];
+        for (const key of userKeys) {
+          realKeys.push(key.dataValues);
+        }
+        return realKeys;
       }
       else {
         return false
@@ -286,11 +308,11 @@ class Database{
      */
     async getAllKeyVaultsByUid(uid){
       let user = await this.getUserByUid(uid);
-      if (user) {
-        let user_id = user.dataValues.id
-        return this.getAllKeyVaultsByUserId(user_id)
+      if (user !== null) {
+        let user_id = user.id;
+        return this.getAllKeyVaultsByUserId(user_id);
       }
-      return false
+      return false;
     }
 
     /**
@@ -302,7 +324,7 @@ class Database{
 
       let user = await this.getUserByUid(uid);
       if (user) {
-        let user_id = user.dataValues.id
+        let user_id = user.id
         let res2 = await this.sequelize.models.key_vault.destroy({ where: { user_id: user_id} });
         let res = await this.sequelize.models.users.destroy({ where: { uid: uid } });
 
@@ -333,7 +355,7 @@ class Database{
 
     /**
      * Удаляет key_vault по user_id и wallet_currency (НЕ ПРОТЕСТИРОВАНО)
-     * @param {Number} user_id 
+     * @param {String} user_id 
      * @param {String} wallet_currency 
      * @return {Object}
      */
@@ -353,8 +375,8 @@ class Database{
     }
 }
 
-async function main(){
-  let db = new Database();
+// async function main(){
+//   let db = new Database();
   // let test  = await db.safeAddUser("test");
   
   // console.log(test);
@@ -386,12 +408,13 @@ async function main(){
   // console.log("_________ ", test);
   // let test  = await db.deleteUserById(user_id);
 
-  // await console.log(test);
+//   await console.log(test);
   
-  db.createDB();
-}
+//   db.createDB();
 
-main();
+//   process.exit();
+// }
+
+// main();
 
 module.exports = Database;
-

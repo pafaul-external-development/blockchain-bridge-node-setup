@@ -1,5 +1,6 @@
 const EndPointRequests = require('../requests/endpoint_requests');
 const AxiosInstance = require('../requests/request_instance');
+const Database = require('../database/database');
 const config = require('./test_config');
 /**
  * 
@@ -15,33 +16,17 @@ function createAxiosInstance(config) {
  * @param {AxiosInstance} btcvAxios
  * @param {AxiosInstance} gleecsAxios
  */
-function createEndPoint(btcvAxios, gleecsAxios) {
-    let endPoint = new EndPointRequests(btcvAxios, gleecsAxios);
+async function createEndPoint(btcvAxios, gleecsAxios) {
+    let db = new Database();
+    let endPoint = new EndPointRequests(btcvAxios, gleecsAxios, db);
     return endPoint;
 }
 
-function setup() {
+async function setup() {
     let btcv = createAxiosInstance(config.btcv);
     let gleecs = createAxiosInstance(config.gleecs);
-    let endPoint = createEndPoint(btcv, gleecs);
+    let endPoint = await createEndPoint(btcv, gleecs);
     return endPoint;
-}
-
-/**
- * 
- * @param {Array} res 
- * @param {String} yes 
- * @param {String} no 
- * @param {Boolean} exit
- */
-function testSuccess(res, yes, no, exit=false) {
-    if (res[0] && res[1]) {
-        console.log(yes);
-        return true;
-    } else {
-        console.log(no);
-        return false;
-    }
 }
 
 /**
@@ -50,13 +35,16 @@ function testSuccess(res, yes, no, exit=false) {
  * @param {JSON} testConfig
  */
 async function chainTest(endPoint, currency, testConfig) {
+    let user1 = await endPoint.getUserHistory(testConfig.userIds[0]);
+    let user2 = await endPoint.getUserHistory(testConfig.userIds[1]);
+    return JSON.stringify(user1, null, '\t') + '\n' + JSON.stringify(user2, null, '\t');
 }
 
 async function main() {
-    let endPoint = setup();
-    let btcvRes = await chainTest(endPoint, config.testBTCV);
-    let gleecsRes = await chainTest(endPoint, config.testGleecs);
-    console.log(JSON.stringify(btcvRes, null, '\t'))
+    let endPoint = await setup();
+    // let btcvRes = await chainTest(endPoint, config.testBTCV);
+    let gleecsRes = await chainTest(endPoint, 'GLEECS', config.gleecs);
+    // console.log(JSON.stringify(btcvRes, null, '\t'))
     console.log(JSON.stringify(gleecsRes, null, '\t'))
 }
 
