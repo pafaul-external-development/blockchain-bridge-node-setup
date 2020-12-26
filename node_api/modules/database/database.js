@@ -277,7 +277,6 @@ class Database{
       else {
         return false
       }
-      
     }
 
     /**
@@ -287,7 +286,7 @@ class Database{
      */
     async getAllKeyVaultsByUid(uid){
       let user = await this.getUserByUid(uid);
-      if (user != []) {
+      if (user) {
         let user_id = user.dataValues.id
         return this.getAllKeyVaultsByUserId(user_id)
       }
