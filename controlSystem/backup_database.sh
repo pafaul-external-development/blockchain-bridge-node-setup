@@ -7,7 +7,6 @@ display_help() {
     echo
     echo "Possible arguments:"
     echo "  -db, --database      Database filename"
-    echo "  -bd, --backup-dir    Backup directory"
     echo "If no arguments specified, silently exits."
 }
 
