@@ -44,6 +44,13 @@ check_values() {
 }
 
 main() {
+    backup_count=$(ls ${BACKUP_DIR} | wc -l)
+    if [ ${backup_count} -ge 5 ]
+    then
+        oldest_backup=$(ls -At ${BACKUP_DIR} | tail -n1)
+        oldest_backup=${BACKUP_DIR}/${oldest_backup}
+        rm -rf ${oldest_backup}
+    fi
     timestamp=$(date '+%d-%m-%y-%H:%M:%S')
     backup_file=${BACKUP_DIR}/bd_${timestamp}.sqlite
     cp ${DATABASE_FILE} ${backup_file}
