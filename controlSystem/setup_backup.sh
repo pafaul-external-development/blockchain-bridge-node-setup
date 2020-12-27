@@ -64,8 +64,9 @@ setup_backup() {
 cat > ${CRON_FILE} <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-0 0 * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_database.sh -db ${DATABASE_FILE}
-0 0 * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_wallets.sh
+* * * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_database.sh -db ${DATABASE_FILE}
+* * * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_wallets.sh
+
 EOF
 }
 

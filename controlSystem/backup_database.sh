@@ -44,11 +44,11 @@ check_values() {
 }
 
 main() {
-    timestamp=$(date '+%d-%m-%y-%H:%m:%S')
+    timestamp=$(date '+%d-%m-%y-%H:%M:%S')
     backup_file=${BACKUP_DIR}/bd_${timestamp}.sqlite
     cp ${DATABASE_FILE} ${backup_file}
 }
 
-parse_input_parameters
+parse_input_parameters $@
 check_values
 main
