@@ -48,5 +48,7 @@ main() {
     backup_file=${BACKUP_DIR}/bd_${timestamp}.sqlite
     cp ${DATABASE_FILE} ${backup_file}
 }
+
+parse_input_parameters
 check_values
 main

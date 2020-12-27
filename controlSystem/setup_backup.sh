@@ -13,11 +13,6 @@ echo_and_exit() {
     fi
 }
 
-if [ ${UID} -ne 0 ]
-then
-    echo_and_exit 1 "You must be root to run this script"
-fi
-
 display_help() {
     echo "Bash script to backup database"
     echo
@@ -75,5 +70,9 @@ EOF
 }
 
 parse_input_parameters $@
+if [ ${UID} -ne 0 ]
+then
+    echo_and_exit 1 "You must be root to run this script"
+fi
 check_values
 setup_backup
