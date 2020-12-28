@@ -121,6 +121,8 @@ async function main(){
     app.get('/api/v1/getUserHistory', asyncHandler(async function(req, res) {
         let userId = req.query.userId;
 
+        console.log(req)
+
         let resp = await endPointRequests.getUserHistory(userId).catch(e => {
             throw e;
         });
