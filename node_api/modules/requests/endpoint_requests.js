@@ -57,7 +57,7 @@ class EndPointRequests {
             let walletData = await this[currency].requests.createWallet(walletId);
             let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
             if (wallet) {
-                return await this[currency].requests.getWallet(walletId);
+                return await this.getWallet(walletId);
             }
         } else {
             throw new Error('User already exists!');
@@ -163,14 +163,14 @@ class EndPointRequests {
      * @param {String} to 
      * @param {Number} amount 
      */
-    async getTxCommision(currency, userId, to, amount) {
+    async getTxCommission(currency, userId, to, amount) {
         let wallet = await this.database.getKeyVaultByUid(userId, currency);
         if (wallet) {
             let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
-            let fee = await this[wallet.wallet_currency].requests.getTxCommision(confirmationBlocks);
+            let fee = await this[wallet.wallet_currency].requests.getTxCommission(confirmationBlocks);
             return fee;
         } else {
-            throw new Error('Cannot calculate tx Commision');
+            throw new Error('Cannot calculate tx Commission');
         }
     }
 }
