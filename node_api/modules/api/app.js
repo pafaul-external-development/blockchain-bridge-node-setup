@@ -59,8 +59,8 @@ async function main(){
 
         axios.post(callbackUrl, resp, testConfig)
         .then(cbResp => {
-            console.log(cbResp);
-            res.send(cbResp)
+            console.log(resp);
+            res.send(resp)
         })
         .catch(e => {
             console.log(e);
@@ -82,8 +82,8 @@ async function main(){
 
         axios.post(callbackUrl, resp, testConfig)
         .then(cbResp => {
-            console.log(cbResp);
-            res.send(cbResp)
+            console.log(resp);
+            res.send(resp)
         })
         .catch(e => {
             console.log(e);
