@@ -57,7 +57,6 @@ class EndPointRequests {
             let walletData = await this[currency].requests.createWallet(walletId);
             let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
             if (wallet) {
-                // TODO вызов url и запись в БД
                 return await this[currency].requests.getWallet(walletId);
             }
         } else {
@@ -125,7 +124,7 @@ class EndPointRequests {
     async getTxData(walletId, txId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (wallet) {
-            let txData = await this[wallet.wallet_currency].requests.getTxData(wallet.id, txId);
+            let txData = await this[wallet.wallet_currency].requests.getTxData(wallet.wallet_id, txId);
             return txData;
         } else {
             throw new Error('Cannot get tx data');
@@ -164,14 +163,14 @@ class EndPointRequests {
      * @param {String} to 
      * @param {Number} amount 
      */
-    async getTxComission(currency, userId, to, amount) {
+    async getTxCommision(currency, userId, to, amount) {
         let wallet = await this.database.getKeyVaultByUid(userId, currency);
         if (wallet) {
             let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
-            let fee = await this[wallet.wallet_currency].requests.getTxComission(confirmationBlocks);
+            let fee = await this[wallet.wallet_currency].requests.getTxCommision(confirmationBlocks);
             return fee;
         } else {
-            throw new Error('Cannot calculate tx comission');
+            throw new Error('Cannot calculate tx Commision');
         }
     }
 }
