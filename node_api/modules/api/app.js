@@ -45,12 +45,12 @@ async function main(){
     //     }
     // }));
 
-    app.post('/api/v1/test', validate.currency, asyncHandler(async function(req, res) {
+    app.post('/api/v1/test', asyncHandler(async function(req, res) {
 
-        let errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
-        }
+        // let errors = validationResult(req);
+        // if (!errors.isEmpty()) {
+        //     throw new Error(JSON.stringify({ errors: errors.array() }))
+        // }
 
         res.send("All right");
     }));
