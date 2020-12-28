@@ -166,9 +166,11 @@ class EndPointRequests {
     async getTxCommission(currency, userId, to, amount) {
         let wallet = await this.database.getKeyVaultByUid(userId, currency);
         if (wallet) {
-            let confirmationBlocks = BlockchainConfig[currency].confirmationBlocks;
+            let confirmationBlocks = BlockchainConfig[currency].confirmation_blocks;
             let fee = await this[wallet.wallet_currency].requests.getTxCommission(wallet.wallet_id, confirmationBlocks);
-            return fee;
+            return {
+                fee: fee
+            };
         } else {
             throw new Error('Cannot calculate tx Commission');
         }
