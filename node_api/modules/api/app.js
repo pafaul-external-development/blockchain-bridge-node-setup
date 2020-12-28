@@ -13,6 +13,12 @@ async function erorHT(){
     throw new Error("test error");
 }
 
+const testConfig = {
+    headers: {
+        "api-key": "D8FE58CD2CD97A17E5227B11A95E7",
+    }
+};
+
 async function main(){
 
     app.use(asyncHandler( async function (req, res, next) {
@@ -20,6 +26,20 @@ async function main(){
             throw new Error('Unknown api key');
         }
         next();
+      }));
+
+    app.use(asyncHandler( async function (req, res, next) {
+        if (!req.query.currency) {
+            next();
+        }
+        else{
+            if (req.query.currency == "GLEEC" || req.query.currency == "BTCV") {
+                next();
+            }
+            else{
+                throw new Error('Currency must be "GLEEC" or "BTCV"');
+            }
+        }
       }));
 
 
@@ -37,7 +57,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp)
+        axios.post(callbackUrl, resp, testConfig)
         .then(cbResp => {
             console.log(cbResp);
             res.send(cbResp)
@@ -60,7 +80,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp)
+        axios.post(callbackUrl, resp, testConfig)
         .then(cbResp => {
             console.log(cbResp);
             res.send(cbResp)
