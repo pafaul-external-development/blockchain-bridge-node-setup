@@ -103,7 +103,7 @@ class HighLevelRequests {
      * @param {String} walletId
      * @param {Number} confirmation_blocks 
      */
-    async getTxComission(walletId, confirmation_blocks) {
+    async getTxCommision(walletId, confirmation_blocks) {
         let fee = await this.lowLevelRequests.estimateSmartFee(walletId, confirmation_blocks);
         return fee;
     }
