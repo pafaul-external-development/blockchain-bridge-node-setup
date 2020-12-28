@@ -164,7 +164,8 @@ async function main(){
     }));
     
     app.use((error, req, res, next) => {
-        console.log(req)
+        console.log(req);
+        next();
     })
 
     app.use((error, req, res, next) => {
