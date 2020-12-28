@@ -22,9 +22,10 @@ async function main(){
         next();
       }));
 
-      
+
     app.post('/api/v1/test', asyncHandler(async function(req, res) {
-        res.send("All right")
+        console.log(req);
+        res.send("All right");
     }));
 
 	app.post('/api/v1/createWallet', asyncHandler(async function(req, res) {
@@ -71,7 +72,7 @@ async function main(){
 
     }));
 
-    app.get('/api/v1/getTxCommission', async function(req, res) {
+    app.get('/api/v1/getTxCommission', asyncHandler(async function(req, res) {
         let currency = req.query.currency;
         let userId = req.query.userId;
         let to = req.query.to;
@@ -83,9 +84,9 @@ async function main(){
 
         res.send(resp)
 
-    });
+    }));
 
-    app.get('/api/v1/getTxData', async function(req, res) {
+    app.get('/api/v1/getTxData', asyncHandler(async function(req, res) {
         let walletId = req.query.walletId;
         let txId = req.query.txId;
 
@@ -95,9 +96,9 @@ async function main(){
 
         res.send(resp)
 
-    });
+    }));
     
-    app.get('/api/v1/getUserHistory', async function(req, res) {
+    app.get('/api/v1/getUserHistory', asyncHandler(async function(req, res) {
         let userId = req.query.userId;
 
         let resp = await endPointRequests.getUserHistory(userId).catch(e => {
@@ -106,9 +107,9 @@ async function main(){
 
         res.send(resp)
 
-    });
+    }));
     
-    app.get('/api/v1/getHistory', async function(req, res) {
+    app.get('/api/v1/getHistory', asyncHandler(async function(req, res) {
         let walletId = req.query.walletId;
 
         let resp = await endPointRequests.getHistory(walletId).catch(e => {
@@ -118,9 +119,9 @@ async function main(){
         res.send(resp)
 
 
-    });
+    }));
     
-	app.get('/api/v1/getWallet', async function(req, res) {
+	app.get('/api/v1/getWallet', asyncHandler(async function(req, res) {
         let walletId = req.query.walletId;
 
         let resp = await endPointRequests.getWallet(walletId).catch(e => {
@@ -129,9 +130,9 @@ async function main(){
 
         res.send(resp)
 
-    });
+    }));
 
-    app.get('/api/v1/getUserWallets', async function(req, res) {
+    app.get('/api/v1/getUserWallets', asyncHandler(async function(req, res) {
         let userId = req.query.userId;
 
         let resp = await endPointRequests.getUserWallets(userId).catch(e => {
@@ -140,7 +141,7 @@ async function main(){
 
         res.send(resp)
 
-    });
+    }));
     
     app.use((error, req, res, next) => {
         res.status(error.status || 500)
