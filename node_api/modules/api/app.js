@@ -61,6 +61,7 @@ async function main(){
     validate.callbackUrl,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -93,6 +94,7 @@ async function main(){
     validate.callbackUrl,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -126,6 +128,7 @@ async function main(){
     validate.amount,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -148,6 +151,7 @@ async function main(){
     validate.txId,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -167,6 +171,7 @@ async function main(){
     validate.userId,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -187,6 +192,7 @@ async function main(){
     validate.walletId,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -208,6 +214,7 @@ async function main(){
     validate.walletId,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
@@ -228,6 +235,7 @@ async function main(){
     validate.userId,
     asyncHandler(async function(req, res) {
 
+        let errors = validationResult(req);
         if (!errors.isEmpty()) {
             throw new Error(JSON.stringify({ errors: errors.array() }))
         }
