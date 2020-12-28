@@ -1,17 +1,20 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator');
-const asyncHandler = require('express-async-handler')
-const createError = require('http-errors')
+const { check, param, validationResult, oneOf} = require('express-validator');
+const asyncHandler = require('express-async-handler');
+const createError = require('http-errors');
 const axios = require('axios');
-const apiConfig = require("../config/api_config")
+const apiConfig = require("../config/api_config");
+const validate = require("./validation");
 
 const endPointRequests = require("../initialization/instance_setup")();
 const app = express()
 
 
-async function erorHT(){
+async function TestErorReq(){
     throw new Error("test error");
 }
+
+const testValiation = check("test").not().isEmpty().withMessage('must be at least 5 chars long');
 
 const testConfig = {
     headers: {
@@ -28,27 +31,40 @@ async function main(){
         next();
     }));
 
-    app.use(asyncHandler( async function (req, res, next) {
-        if (req.query.currency == undefined || req.query.currency == null) {
-            next();
-        }
-        else{
-            if (req.query.currency == "GLEEC" || req.query.currency == "BTCV") {
-                next();
-            }
-            else{
-                throw new Error('Currency must be "GLEEC" or "BTCV"');
-            }
-        }
-    }));
+    // app.use(asyncHandler( async function (req, res, next) {
+    //     if (req.query.currency == undefined || req.query.currency == null) {
+    //         next();
+    //     }
+    //     else{
+    //         if (req.query.currency == "GLEEC" || req.query.currency == "BTCV") {
+    //             next();
+    //         }
+    //         else{
+    //             throw new Error('Currency must be "GLEEC" or "BTCV"');
+    //         }
+    //     }
+    // }));
 
+    app.post('/api/v1/test', validate.currency, asyncHandler(async function(req, res) {
 
-    app.post('/api/v1/test', asyncHandler(async function(req, res) {
-        console.log(req);
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         res.send("All right");
     }));
 
-	app.post('/api/v1/createWallet', asyncHandler(async function(req, res) {
+    app.post('/api/v1/createWallet', 
+    validate.currency,
+    validate.userId,
+    validate.callbackUrl,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let currency = req.query.currency;
         let userId = req.query.userId;
         let callbackUrl = req.query.callbackUrl;
@@ -69,7 +85,18 @@ async function main(){
 
     }));
 
-    app.post('/api/v1/createTx', asyncHandler(async function(req, res) {
+    app.post('/api/v1/createTx', 
+    validate.currency,
+    validate.userId,
+    validate.to,
+    validate.amount,
+    validate.callbackUrl,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let currency = req.query.currency;
         let userId = req.query.userId;
         let to = req.query.to;
@@ -92,7 +119,17 @@ async function main(){
 
     }));
 
-    app.get('/api/v1/getTxCommission', asyncHandler(async function(req, res) {
+    app.get('/api/v1/getTxCommission', 
+    validate.currency,
+    validate.userId,
+    validate.to,
+    validate.amount,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let currency = req.query.currency;
         let userId = req.query.userId;
         let to = req.query.to;
@@ -106,7 +143,15 @@ async function main(){
 
     }));
 
-    app.get('/api/v1/getTxData', asyncHandler(async function(req, res) {
+    app.get('/api/v1/getTxData', 
+    validate.walletId,
+    validate.txId,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let walletId = req.query.walletId;
         let txId = req.query.txId;
 
@@ -118,7 +163,14 @@ async function main(){
 
     }));
     
-    app.get('/api/v1/getUserHistory', asyncHandler(async function(req, res) {
+    app.get('/api/v1/getUserHistory', 
+    validate.userId,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let userId = req.query.userId;
 
         console.log(req)
@@ -131,7 +183,14 @@ async function main(){
 
     }));
     
-    app.get('/api/v1/getHistory', asyncHandler(async function(req, res) {
+    app.get('/api/v1/getHistory', 
+    validate.walletId,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let walletId = req.query.walletId;
 
         console.log(req)
@@ -145,7 +204,14 @@ async function main(){
 
     }));
     
-	app.get('/api/v1/getWallet', asyncHandler(async function(req, res) {
+    app.get('/api/v1/getWallet', 
+    validate.walletId,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let walletId = req.query.walletId;
 
         console.log(req)
@@ -158,7 +224,14 @@ async function main(){
 
     }));
 
-    app.get('/api/v1/getUserWallets', asyncHandler(async function(req, res) {
+    app.get('/api/v1/getUserWallets', 
+    validate.userId,
+    asyncHandler(async function(req, res) {
+
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify({ errors: errors.array() }))
+        }
+
         let userId = req.query.userId;
 
         console.log(req)
@@ -170,11 +243,6 @@ async function main(){
         res.send(resp)
 
     }));
-    
-    // app.use((error, req, res, next) => {
-    //     console.log(req);
-    //     next();
-    // })
 
     app.use((error, req, res, next) => {
         res.status(error.status || 500)
