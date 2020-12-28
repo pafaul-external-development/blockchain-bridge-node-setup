@@ -70,14 +70,13 @@ class HighLevelRequests {
      */
     async getTxData(walletId, txId) {
         let txData = await this.lowLevelRequests.getTransaction(walletId, txId);
-
         let txInfo = {
             amount: txData.amount,
             time: txData.time,
             fee: txData.fee,
-            address: txData.details ? txData.details.address : null,
-            status: txData.details ? txData.details.category : null,
-            abandoned: txData.details ? txData.details.abandoned : null,
+            address: txData.details[0] ? txData.details[0].address : null,
+            status: txData.details[0] ? txData.details[0].category : null,
+            abandoned: txData.details[0] ? txData.details[0].abandoned : null,
         }
         return txInfo;
     }
