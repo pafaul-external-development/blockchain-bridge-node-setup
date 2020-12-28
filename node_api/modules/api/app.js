@@ -132,6 +132,8 @@ async function main(){
     app.get('/api/v1/getHistory', asyncHandler(async function(req, res) {
         let walletId = req.query.walletId;
 
+        console.log(req)
+
         let resp = await endPointRequests.getHistory(walletId).catch(e => {
             throw e;
         });
@@ -144,6 +146,8 @@ async function main(){
 	app.get('/api/v1/getWallet', asyncHandler(async function(req, res) {
         let walletId = req.query.walletId;
 
+        console.log(req)
+
         let resp = await endPointRequests.getWallet(walletId).catch(e => {
             throw e;
         });
@@ -155,6 +159,8 @@ async function main(){
     app.get('/api/v1/getUserWallets', asyncHandler(async function(req, res) {
         let userId = req.query.userId;
 
+        console.log(req)
+
         let resp = await endPointRequests.getUserWallets(userId).catch(e => {
             throw e;
         });
@@ -163,10 +169,10 @@ async function main(){
 
     }));
     
-    app.use((error, req, res, next) => {
-        console.log(req);
-        next();
-    })
+    // app.use((error, req, res, next) => {
+    //     console.log(req);
+    //     next();
+    // })
 
     app.use((error, req, res, next) => {
         res.status(error.status || 500)
