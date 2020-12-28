@@ -26,10 +26,10 @@ async function main(){
             throw new Error('Unknown api key');
         }
         next();
-      }));
+    }));
 
     app.use(asyncHandler( async function (req, res, next) {
-        if (!req.query.currency) {
+        if (req.query.currency == undefined || req.query.currency == null) {
             next();
         }
         else{
@@ -40,7 +40,7 @@ async function main(){
                 throw new Error('Currency must be "GLEEC" or "BTCV"');
             }
         }
-      }));
+    }));
 
 
     app.post('/api/v1/test', asyncHandler(async function(req, res) {
