@@ -3,6 +3,7 @@ const { check, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler')
 const createError = require('http-errors')
 const axios = require('axios');
+const apiConfig = require("../config/api_config")
 
 const endPointRequests = require("../initialization/instance_setup")();
 const app = express()
@@ -12,8 +13,19 @@ async function erorHT(){
     throw new Error("test error");
 }
 
-
 async function main(){
+
+    app.use(asyncHandler( async function (req, res, next) {
+        if (!apiConfig.apiKeys.has(req.headers["api-key"])) {
+            throw new Error('Unknown api key');
+        }
+        next();
+      }));
+
+      
+    app.post('/api/v1/test', asyncHandler(async function(req, res) {
+        res.send("All right")
+    }));
 
 	app.post('/api/v1/createWallet', asyncHandler(async function(req, res) {
         let currency = req.query.currency;
@@ -26,16 +38,17 @@ async function main(){
 
         axios.post(callbackUrl, resp)
         .then(cbResp => {
-          console.log(cbResp);
-          res.send(cbResp)
+            console.log(cbResp);
+            res.send(cbResp)
         })
         .catch(e => {
-          console.log(e);
+            console.log(e);
+            throw e;
         });
 
-    }))
+    }));
 
-    app.post('/api/v1/createTx', async function(req, res) {
+    app.post('/api/v1/createTx', asyncHandler(async function(req, res) {
         let currency = req.query.currency;
         let userId = req.query.userId;
         let to = req.query.to;
@@ -48,15 +61,15 @@ async function main(){
 
         axios.post(callbackUrl, resp)
         .then(cbResp => {
-          console.log(cbResp);
-          res.send(cbResp)
+            console.log(cbResp);
+            res.send(cbResp)
         })
         .catch(e => {
-          console.log(e);
+            console.log(e);
+            throw e;
         });
 
-
-    });
+    }));
 
     app.get('/api/v1/getTxCommission', async function(req, res) {
         let currency = req.query.currency;
@@ -70,7 +83,6 @@ async function main(){
 
         res.send(resp)
 
-
     });
 
     app.get('/api/v1/getTxData', async function(req, res) {
@@ -83,7 +95,6 @@ async function main(){
 
         res.send(resp)
 
-
     });
     
     app.get('/api/v1/getUserHistory', async function(req, res) {
@@ -94,7 +105,6 @@ async function main(){
         });
 
         res.send(resp)
-
 
     });
     
@@ -119,7 +129,6 @@ async function main(){
 
         res.send(resp)
 
-
     });
 
     app.get('/api/v1/getUserWallets', async function(req, res) {
@@ -140,11 +149,13 @@ async function main(){
           message: error.message,
         //   stack: error.stack // Turn on if need error stack in resp
         })
-      })
+
+    })
+
 }
 
 
 main();
 
 
-app.listen(3000, () => console.log('Server ready'))
+app.listen(apiConfig.port, apiConfig.host, () => console.log(`Server ready on ${apiConfig.port} port.`))

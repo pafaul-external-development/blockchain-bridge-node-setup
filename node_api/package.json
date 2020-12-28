@@ -4,8 +4,12 @@
   "description": "API for interaction with BTCV and Gleecs nodes",
   "main": "index.js",
   "dependencies": {
+    "api-key-auth": "^0.2.3",
     "axios": "^0.21.0",
     "crypto-js": "^4.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "express-validator": "^6.9.0",
     "https": "^1.0.0",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
