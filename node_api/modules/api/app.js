@@ -14,7 +14,8 @@ async function main(){
 
     app.use(asyncHandler( async function (req, res, next) {
         if (!apiConfig.apiKeys.has(req.headers["api-key"])) {
-            throw new Error('Unknown api key');
+            // throw new Error('Unknown api key');
+            throw createError(401, 'Bad api-key');
         }
         next();
     }));
@@ -142,8 +143,6 @@ async function main(){
 
         let userId = req.query.userId;
 
-        console.log(req)
-
         let resp = await endPointRequests.getUserHistory(userId).catch(e => {
             throw e;
         });
@@ -162,8 +161,6 @@ async function main(){
         }
 
         let walletId = req.query.walletId;
-
-        console.log(req)
 
         let resp = await endPointRequests.getHistory(walletId).catch(e => {
             throw e;
@@ -184,8 +181,6 @@ async function main(){
 
         let walletId = req.query.walletId;
 
-        console.log(req)
-
         let resp = await endPointRequests.getWallet(walletId).catch(e => {
             throw e;
         });
@@ -204,8 +199,6 @@ async function main(){
         }
 
         let userId = req.query.userId;
-
-        console.log(req)
 
         let resp = await endPointRequests.getUserWallets(userId).catch(e => {
             throw e;
