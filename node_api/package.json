@@ -20,7 +20,8 @@
     "testUserCreation": "cd modules/tests && node user_creation_test.js",
     "testGetWallets": "cd modules/tests && node test_get_wallets_info.js",
     "testGetHistory": "cd modules/tests && node test_get_user_history.js",
-    "testCreateTx": "cd modules/tests && node test_create_tx.js"
+    "testCreateTx": "cd modules/tests && node test_create_tx.js",
+    "startServer": "cd modules/api && node app.js"
   },
   "repository": {
     "type": "git",

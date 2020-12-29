@@ -74,7 +74,12 @@ class EndPointRequests {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (wallet) {
             let walletData = await this[wallet.wallet_currency].requests.getWallet(walletId);
-            return [wallet.wallet_currency, walletData, wallet.pub_key];
+            return {
+                currency: wallet.wallet_currency, 
+                balances: walletData, 
+                address: wallet.pub_key,
+                walletId: walletId
+            };
         } else {
             throw new Error('Wallet not found!');
         }
@@ -89,7 +94,6 @@ class EndPointRequests {
         let walletInfo = [];
         for (const walletData of existingWallets) {
             let wallet = await this.getWallet(walletData.wallet_id);
-            wallet.push(walletData.wallet_id);
             walletInfo.push(wallet);
         }
         return walletInfo;
@@ -103,7 +107,10 @@ class EndPointRequests {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
         if (wallet.wallet_currency) {
             let walletHistory = await this[wallet.wallet_currency].requests.getHistory(wallet.wallet_id);
-            return [wallet.wallet_currency, walletHistory];
+            return {
+                currency: wallet.wallet_currency, 
+                data: walletHistory
+            };
         } else {
             throw new Error ('Cannot get wallet history');
         }
