@@ -28,7 +28,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let currency = req.query.currency;
@@ -61,7 +61,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let currency = req.query.currency;
@@ -95,7 +95,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let currency = req.query.currency;
@@ -118,7 +118,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let walletId = req.query.walletId;
@@ -138,7 +138,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let userId = req.query.userId;
@@ -157,7 +157,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let walletId = req.query.walletId;
@@ -176,7 +176,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let walletId = req.query.walletId;
@@ -195,7 +195,7 @@ async function main(){
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw new Error(JSON.stringify({ errors: errors.array() }))
+            throw createError(400, JSON.stringify({ errors: errors.array() }))
         }
 
         let userId = req.query.userId;
