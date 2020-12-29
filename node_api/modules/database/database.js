@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 class Database{
 
-    constructor(){ //TODO Раскидать конфиг и таблицы на файлы
+    constructor(){ 
         const config =  {
             username: 'root',
             password: null, 
@@ -60,7 +60,6 @@ class Database{
             timestamps: true // Колонки createdAt и updatedAt будут созданы автоматически
           });
 
-          // this.users.belongsTo(this.key_vault, { as: 'users_key_vaults', foreignKey: 'id', targetKey: 'user_id'});
     }
 
     /**
@@ -375,46 +374,11 @@ class Database{
     }
 }
 
-// async function main(){
-//   let db = new Database();
-  // let test  = await db.safeAddUser("test");
-  
-  // console.log(test);
-  // console.log("asd");
+async function main(){
+  let db = new Database();
+  db.createDB();
+}
 
-  // let user_id = 1;
-  // let wallet_currency = "test1";
-  // let pub_key = "pub_key1";
-  // let wallet_id = "wallet_id1";
-  // let id =1;
-  // let uid = "test";
-
-  // let test = await db.getKeyVault(2, wallet_currency);
-  // let test = await db.getKeyVaultByUid("test", wallet_currency);
-
-
-  // db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id);
-  // db.safeUpdateUser(2, "test");
-  // test = await db.safeUpdateKeyVault(user_id, wallet_currency, pub_key, wallet_id);
-  // test = await db.safeAddKeyVault(user_id, wallet_currency, pub_key, wallet_id);
-  // test = await db.getAllKeyVaultsByUid(uid);
-
-  // let test  = await db.safeUpdateKeyVaultByUid(uid, wallet_currency, pub_key, wallet_id);
-
-  // let test  = await db.getAllKeyVaultsByUid(uid);
-  // console.log(test);
-
-
-  // console.log("_________ ", test);
-  // let test  = await db.deleteUserById(user_id);
-
-//   await console.log(test);
-  
-//   db.createDB();
-
-//   process.exit();
-// }
-
-// main();
+main();
 
 module.exports = Database;

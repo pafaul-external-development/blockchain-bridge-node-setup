@@ -18,7 +18,7 @@ const testValiation = check("test").not().isEmpty().withMessage('must be at leas
 
 const testConfig = {
     headers: {
-        "api-key": "D8FE58CD2CD97A17E5227B11A95E7",
+        "api-key": apiConfig.apiKeys.keys()[0],
     }
 };
 
@@ -31,27 +31,7 @@ async function main(){
         next();
     }));
 
-    // app.use(asyncHandler( async function (req, res, next) {
-    //     if (req.query.currency == undefined || req.query.currency == null) {
-    //         next();
-    //     }
-    //     else{
-    //         if (req.query.currency == "GLEEC" || req.query.currency == "BTCV") {
-    //             next();
-    //         }
-    //         else{
-    //             throw new Error('Currency must be "GLEEC" or "BTCV"');
-    //         }
-    //     }
-    // }));
-
     app.post('/api/v1/test', asyncHandler(async function(req, res) {
-
-        // let errors = validationResult(req);
-        // if (!errors.isEmpty()) {
-        //     throw new Error(JSON.stringify({ errors: errors.array() }))
-        // }
-
         res.send("All right");
     }));
 
@@ -166,7 +146,7 @@ async function main(){
         res.send(resp)
 
     }));
-    
+
     app.get('/api/v1/getUserHistory', 
     validate.userId,
     asyncHandler(async function(req, res) {
@@ -187,7 +167,7 @@ async function main(){
         res.send(resp)
 
     }));
-    
+
     app.get('/api/v1/getHistory', 
     validate.walletId,
     asyncHandler(async function(req, res) {
@@ -206,7 +186,6 @@ async function main(){
         });
 
         res.send(resp)
-
 
     }));
     
