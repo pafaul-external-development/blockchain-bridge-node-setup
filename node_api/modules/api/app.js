@@ -10,11 +10,6 @@ const endPointRequests = require("../initialization/instance_setup")();
 const app = express()
 
 
-async function TestErorReq(){
-    throw new Error("test error");
-}
-
-
 async function main(){
 
     app.use(asyncHandler( async function (req, res, next) {
