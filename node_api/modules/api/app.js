@@ -9,11 +9,6 @@ const validate = require("./validation");
 const endPointRequests = require("../initialization/instance_setup")();
 const app = express()
 
-const testConfig = {
-    headers: {
-        "api-key": 'D8FE58CD2CD97A17E5227B11A95E7',
-    }
-};
 
 async function main(){
 
@@ -47,7 +42,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp, testConfig)
+        axios.post(callbackUrl, resp)
         .then(cbResp => {
             console.log(resp);
             res.send(resp)
@@ -82,7 +77,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp, testConfig)
+        axios.post(callbackUrl, resp)
         .then(cbResp => {
             console.log(resp);
             res.send(resp)
