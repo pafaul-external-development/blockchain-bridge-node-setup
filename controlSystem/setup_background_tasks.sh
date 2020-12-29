@@ -88,8 +88,8 @@ setup_backup() {
 cat > ${CRON_FILE} <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-0   * * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_database.sh -db ${DATABASE_FILE}
-0   * * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_wallets.sh
+0   0 * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_database.sh -db ${DATABASE_FILE}
+0   0 * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/backup_wallets.sh
 */5 * * * * ${BACKUP_USER} cd ${DIRROOT} && /bin/bash ${DIRROOT}/check_if_up.sh -gi ${GLEECS_NODE_IP} -gp ${GLEECS_PORT} -bi ${BTCV_NODE_IP} -bp ${BTCV_PORT}
 
 EOF

@@ -1,7 +1,7 @@
 let config = {};
 
 config.BTCV = {};
-config.BTCV.confirmation_blocks = 6;
+config.BTCV.confirmation_blocks = 145;
 config.BTCV.address = '0.0.0.0';
 config.BTCV.port = 32807;
 config.BTCV.auth = {};
