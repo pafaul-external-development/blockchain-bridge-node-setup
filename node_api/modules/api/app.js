@@ -19,7 +19,6 @@ async function main(){
 
     app.use(asyncHandler( async function (req, res, next) {
         if (!apiConfig.apiKeys.has(req.headers["api-key"])) {
-            // throw new Error('Unknown api key');
             throw createError(401, 'Bad api-key');
         }
         next();
