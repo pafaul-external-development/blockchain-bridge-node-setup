@@ -14,13 +14,6 @@ async function TestErorReq(){
     throw new Error("test error");
 }
 
-const testValiation = check("test").not().isEmpty().withMessage('must be at least 5 chars long');
-
-const testConfig = {
-    headers: {
-        "api-key": apiConfig.apiKeys.keys()[0],
-    }
-};
 
 async function main(){
 
@@ -29,10 +22,6 @@ async function main(){
             throw new Error('Unknown api key');
         }
         next();
-    }));
-
-    app.post('/api/v1/test', asyncHandler(async function(req, res) {
-        res.send("All right");
     }));
 
     app.post('/api/v1/createWallet', 
@@ -54,7 +43,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp, testConfig)
+        axios.post(callbackUrl, resp)
         .then(cbResp => {
             console.log(resp);
             res.send(resp)
@@ -89,7 +78,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp, testConfig)
+        axios.post(callbackUrl, resp)
         .then(cbResp => {
             console.log(resp);
             res.send(resp)
