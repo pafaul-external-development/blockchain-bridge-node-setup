@@ -58,9 +58,11 @@ class EndPointRequests {
             let wallet = await this.database.safeAddKeyVaultByUid(userId, currency, walletData[1], walletId);
             if (wallet) {
                 return await this.getWallet(walletId);
+            } else {
+                throw new Error('Cannot create wallet for user!')
             }
         } else {
-            throw new Error('User already exists!');
+            throw new Error('Wallet for user already exists!');
         }
     }
 
@@ -70,8 +72,12 @@ class EndPointRequests {
      */
     async getWallet(walletId) {
         let wallet = await this.database.getKeyVaultByWalletId(walletId);
-        let walletData = await this[wallet.wallet_currency].requests.getWallet(walletId);
-        return [wallet.wallet_currency, walletData, wallet.pub_key]
+        if (wallet) {
+            let walletData = await this[wallet.wallet_currency].requests.getWallet(walletId);
+            return [wallet.wallet_currency, walletData, wallet.pub_key];
+        } else {
+            throw new Error('Wallet not found!');
+        }
     }
 
     /**
@@ -107,10 +113,10 @@ class EndPointRequests {
      * @param {String} userId 
      */
     async getUserHistory(userId) {
-        let wallets = await this.database.getAllKeyVaultsByUserId(userId);
+        let wallets = await this.database.getAllKeyVaultsByUid(userId);
         let history = [];
         for (const walletData of wallets) {
-            let walletHistory = await this[walletData.wallet_currency].requests.getHistory(walletData.wallet_id);
+            let walletHistory = await this.getHistory(walletData.wallet_id);
             history.push(walletHistory);
         }
         return history;
