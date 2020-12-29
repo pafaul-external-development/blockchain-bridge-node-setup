@@ -94,7 +94,6 @@ class EndPointRequests {
         let walletInfo = [];
         for (const walletData of existingWallets) {
             let wallet = await this.getWallet(walletData.wallet_id);
-            wallet.push(walletData.wallet_id);
             walletInfo.push(wallet);
         }
         return walletInfo;
