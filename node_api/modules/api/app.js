@@ -11,7 +11,7 @@ const app = express()
 
 const testConfig = {
     headers: {
-        "api-key": apiConfig.apiKeys.keys()[0],
+        "api-key": 'D8FE58CD2CD97A17E5227B11A95E7',
     }
 };
 
