@@ -219,7 +219,7 @@ async function main(){
         res.status(error.status || 500)
         res.json({
           status: error.status || 500,
-          message: error.message,
+        //   message: error.message,
         //   stack: error.stack // Turn on if need error stack in resp
         })
 
