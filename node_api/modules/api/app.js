@@ -9,6 +9,11 @@ const validate = require("./validation");
 const endPointRequests = require("../initialization/instance_setup")();
 const app = express()
 
+const testConfig = {
+    headers: {
+        "api-key": 'D8FE58CD2CD97A17E5227B11A95E7',
+    }
+};
 
 async function main(){
 
@@ -18,6 +23,10 @@ async function main(){
             throw createError(401, 'Bad api-key');
         }
         next();
+    }));
+
+    app.post('/api/v1/test', asyncHandler(async function(req, res) {
+        res.send("All right");
     }));
 
     app.post('/api/v1/createWallet', 
@@ -39,7 +48,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp)
+        axios.post(callbackUrl, resp, testConfig)
         .then(cbResp => {
             console.log(resp);
             res.send(resp)
@@ -74,7 +83,7 @@ async function main(){
             throw e;
         });
 
-        axios.post(callbackUrl, resp)
+        axios.post(callbackUrl, resp, testConfig)
         .then(cbResp => {
             console.log(resp);
             res.send(resp)
