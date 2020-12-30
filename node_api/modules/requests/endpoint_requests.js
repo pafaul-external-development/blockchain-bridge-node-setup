@@ -126,11 +126,14 @@ class EndPointRequests {
     async getUserHistory(userId) {
         let wallets = await this.database.getAllKeyVaultsByUid(userId);
         let history = [];
-        for (const walletData of wallets) {
-            let walletHistory = await this.getHistory(walletData.wallet_id);
-            history.push(walletHistory);
+        if (wallets.length > 0) {
+            for (const walletData of wallets) {
+                let walletHistory = await this.getHistory(walletData.wallet_id);
+                history.push(walletHistory);
+            }
+            return history;
         }
-        return history;
+        return [];
     }
 
     /**
