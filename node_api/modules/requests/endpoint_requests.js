@@ -91,12 +91,15 @@ class EndPointRequests {
      */
     async getUserWallets(userId) {
         let existingWallets = await this.database.getAllKeyVaultsByUid(userId);
-        let walletInfo = [];
-        for (const walletData of existingWallets) {
-            let wallet = await this.getWallet(walletData.wallet_id);
-            walletInfo.push(wallet);
+        if (existingWallets.length > 0) {
+            let walletInfo = [];
+            for (const walletData of existingWallets) {
+                let wallet = await this.getWallet(walletData.wallet_id);
+                walletInfo.push(wallet);
+            }
+            return walletInfo;
         }
-        return walletInfo;
+        return [];
     }
 
     /**
