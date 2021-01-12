@@ -50,16 +50,18 @@ class HighLevelRequests {
     async getHistory(walletId) {
         let history = await this.lowLevelRequests.listTransactions(walletId);
         let transactionsInfo = [];
-        history.forEach((tx) => {
+        for (const tx of history) {
+            let txDataRaw = await this.lowLevelRequests.getRawTransaction(walletId, tx.txid);
             transactionsInfo.push({
                 txId: tx.txid,
                 address: tx.address,
                 amount: tx.amount,
                 category: tx.category,
                 time: tx.time,
-                fee: tx.fee
+                fee: tx.fee,
+                hash: txDataRaw ? txDataRaw.hash : null
             })
-        })
+        }
         return transactionsInfo;
     }
 
