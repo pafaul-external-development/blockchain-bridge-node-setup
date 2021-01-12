@@ -25,7 +25,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Set request instance for BTCV
      * @param {AxiosInstance} instance 
      */
     setBtcvInstance(instance) {
@@ -34,7 +34,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Set request instance for Gleec
      * @param {AxiosInstance} instance 
      */
     setGleecsInstance(instance) {
@@ -43,7 +43,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Create user wallet
      * @param {String} currency 
      * @param {String} userId 
      * @param {String} callbackUrl 
@@ -67,7 +67,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Get user wallet by walletId
      * @param {String} walletId 
      */
     async getWallet(walletId) {
@@ -86,7 +86,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Get all existing user wallets
      * @param {String} userId 
      */
     async getUserWallets(userId) {
@@ -103,7 +103,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Get history of wallet by walletId
      * @param {String} walletId 
      */
     async getHistory(walletId) {
@@ -120,7 +120,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Get history of all user's wallets
      * @param {String} userId 
      */
     async getUserHistory(userId) {
@@ -137,7 +137,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Get information about transaction
      * @param {String} walletId 
      * @param {String} txId 
      */
@@ -152,7 +152,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Create transaction
      * @param {String} currency 
      * @param {String} userId 
      * @param {String} to 
@@ -165,7 +165,6 @@ class EndPointRequests {
             let txData = await this[wallet.wallet_currency].requests.createTx(wallet.wallet_id, to, String(amount));
             if (txData) {
                 if (txData.txId) {
-                    // TODO вызов callback
                     return txData;
                 }
                 return txId;
@@ -177,7 +176,7 @@ class EndPointRequests {
     }
 
     /**
-     * 
+     * Calculate approximate comission
      * @param {String} currency 
      * @param {String} userId 
      * @param {String} to 

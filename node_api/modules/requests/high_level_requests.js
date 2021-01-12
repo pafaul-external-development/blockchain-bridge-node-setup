@@ -70,6 +70,7 @@ class HighLevelRequests {
      */
     async getTxData(walletId, txId) {
         let txData = await this.lowLevelRequests.getTransaction(walletId, txId);
+        let txDataRaw = await this.lowLevelRequests.getRawTransaction(walletId, txId);
         let txInfo = {
             amount: txData.amount,
             time: txData.time,
@@ -77,6 +78,7 @@ class HighLevelRequests {
             address: txData.details[0] ? txData.details[0].address : null,
             status: txData.details[0] ? txData.details[0].category : null,
             abandoned: txData.details[0] ? txData.details[0].abandoned : null,
+            hash: txDataRaw ? txDataRaw.hash : null
         }
         return txInfo;
     }

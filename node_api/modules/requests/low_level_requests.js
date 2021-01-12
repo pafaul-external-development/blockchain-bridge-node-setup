@@ -173,6 +173,20 @@ class LowLevelRequests {
             throw new Error('Cannot get transaction info');
         }
     }
+    
+    async getRawTransaction(walletId, txId) {
+        try {
+            let path = '/wallet/' + walletId;
+            let response = await this.instance.post_request(path, 'getrawtransaction', [txId, true]);
+            if (!response.error)
+                return response.data.result;
+            else
+                throw new Error('Cannot get transaction info');
+        } catch (err) {
+            console.log(err);
+            throw new Error('Cannot get transaction info');
+        }
+    }
 
     /**
      * Send amount to specified address
