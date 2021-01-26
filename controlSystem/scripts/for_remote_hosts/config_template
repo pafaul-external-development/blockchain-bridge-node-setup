@@ -1,3 +1,4 @@
-WALLET_DIR=
-CONFIG_FILE=
-NODE=
+WALLET_DIR=/root/.gleecbtc/wallets
+CONFIG_FILE=/opt/gleecs/gleecs.conf
+NODE=gleecbtcd
+NODE_CLI=gleecbtc-cli
