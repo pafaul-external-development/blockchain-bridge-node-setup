@@ -2,7 +2,7 @@
 
 . /opt/.config/config
 
-${NODE} -conf=${CONF_FILE} -rescan -reindex &
+${NODE} -conf=${CONFIG_FILE} -rescan -reindex &
 
 sleep 30
 

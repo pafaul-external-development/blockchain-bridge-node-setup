@@ -12,6 +12,6 @@ do
             count=$(ps -aux | grep ${NODE_CLI} | wc -l)
             sleep 1
         done
-        ${NODE_CLI} -conf=${CONF_FILE} loadwallet ${f} &
+        ${NODE_CLI} -conf=${CONFIG_FILE} loadwallet ${f} &
     fi
 done
