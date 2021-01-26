@@ -10,7 +10,7 @@ do
         while [ ${count} -ge 15 ]
         do
             count=$(ps -aux | grep ${NODE_CLI} | wc -l)
-            sleeep 1
+            sleep 1
         done
         ${NODE_CLI} -conf=${CONF_FILE} loadwallet ${f} &
     fi
